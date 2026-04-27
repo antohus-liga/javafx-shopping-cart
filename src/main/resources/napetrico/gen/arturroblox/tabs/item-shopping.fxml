@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+
+<?import javafx.geometry.Insets?>
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            maxWidth="Infinity" maxHeight="Infinity">
+    <padding>
+        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+    </padding>
+    <HBox spacing="40.0" maxWidth="Infinity" maxHeight="Infinity"
+          AnchorPane.topAnchor="10.0"
+          AnchorPane.bottomAnchor="10.0"
+          AnchorPane.leftAnchor="10.0"
+          AnchorPane.rightAnchor="10.0">
+        <fx:include source="components/item-list.fxml" HBox.hgrow="ALWAYS"/>
+        <fx:include source="components/shopping-cart.fxml" HBox.hgrow="ALWAYS"/>
+    </HBox>
+</AnchorPane>

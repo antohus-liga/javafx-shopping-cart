@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+
+<TabPane maxHeight="Infinity" maxWidth="Infinity" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/17.0.12" fx:controller="napetrico.gen.arturroblox.controllers.HelloController">
+    <Tab closable="false" text="Shopping">
+        <fx:include source="tabs/item-shopping.fxml"/>
+    </Tab>
+    <Tab closable="false" text="Payments">
+        <fx:include source="tabs/payments-table.fxml"/>
+    </Tab>
+</TabPane>

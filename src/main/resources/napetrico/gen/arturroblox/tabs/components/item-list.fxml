@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="napetrico.gen.arturroblox.controllers.ItemListController"
+            maxWidth="Infinity" maxHeight="Infinity">
+    <TableView fx:id="itemsTable"
+               AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0"
+               AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
+        <columns>
+            <TableColumn fx:id="description" text="Description"/>
+            <TableColumn fx:id="unitPrice" text="Unit Price"/>
+            <TableColumn fx:id="add" text="Add"/>
+        </columns>
+    </TableView>
+</AnchorPane>
