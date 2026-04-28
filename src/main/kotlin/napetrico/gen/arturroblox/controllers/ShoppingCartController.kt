@@ -1,5 +1,6 @@
 package napetrico.gen.arturroblox.controllers
 
+import javafx.beans.property.SimpleIntegerProperty
 import javafx.fxml.FXML
 import javafx.fxml.FXMLLoader
 import javafx.fxml.Initializable
@@ -26,7 +27,6 @@ class ShoppingCartController: Initializable {
     @FXML private lateinit var clear: Button
 
     override fun initialize(url: URL?, rb: ResourceBundle?) {
-        cart.columnResizePolicy = TableView.CONSTRAINED_RESIZE_POLICY_ALL_COLUMNS
         add.prefWidthProperty().bind(cart.widthProperty().multiply(0.05))
         sub.prefWidthProperty().bind(cart.widthProperty().multiply(0.05))
         quantity.prefWidthProperty().bind(cart.widthProperty().multiply(0.20))
@@ -44,5 +44,10 @@ class ShoppingCartController: Initializable {
             title = "Payment"
         }
         stage.show()
+    }
+
+    @FXML
+    fun onClearClick() {
+        cart.items.clear()
     }
 }

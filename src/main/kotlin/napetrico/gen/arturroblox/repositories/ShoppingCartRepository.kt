@@ -1,9 +1,10 @@
 package napetrico.gen.arturroblox.repositories
 
-import napetrico.gen.arturroblox.entities.Payment
+import napetrico.gen.arturroblox.dsl.ShoppingCarts
 import napetrico.gen.arturroblox.entities.ShoppingCart
 import napetrico.gen.arturroblox.models.NewShoppingCart
 import napetrico.gen.arturroblox.models.UpdateShoppingCart
+import org.jetbrains.exposed.v1.core.eq
 import org.jetbrains.exposed.v1.jdbc.transactions.transaction
 
 class ShoppingCartRepository {
@@ -13,6 +14,10 @@ class ShoppingCartRepository {
 
     fun findById(id: Int): ShoppingCart? = transaction {
         ShoppingCart.findById(id)
+    }
+
+    fun findUncompleted(): ShoppingCart? = transaction {
+        ShoppingCart.find { ShoppingCarts.isComplete eq false }.singleOrNull()
     }
 
     fun create(cart: NewShoppingCart) : ShoppingCart = transaction {

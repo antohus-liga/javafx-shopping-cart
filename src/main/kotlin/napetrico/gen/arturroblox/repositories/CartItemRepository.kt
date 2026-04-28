@@ -3,7 +3,9 @@ package napetrico.gen.arturroblox.repositories
 import javafx.beans.property.SimpleIntegerProperty
 import napetrico.gen.arturroblox.dsl.CartItems
 import napetrico.gen.arturroblox.dsl.Items
+import napetrico.gen.arturroblox.entities.ShoppingCart
 import napetrico.gen.arturroblox.models.CartItem
+import org.jetbrains.exposed.v1.core.ResultRow
 import org.jetbrains.exposed.v1.core.and
 import org.jetbrains.exposed.v1.core.eq
 import org.jetbrains.exposed.v1.jdbc.deleteWhere
@@ -14,19 +16,16 @@ import org.jetbrains.exposed.v1.jdbc.update
 import java.math.BigDecimal
 
 class CartItemRepository {
-    val itemRepository = ItemRepository()
-
     fun getAll(): List<CartItem> = transaction {
         (CartItems innerJoin Items)
             .selectAll()
-            .map {
-                CartItem(
-                    itemId      = it[CartItems.itemId].value,
-                    description = it[Items.description],
-                    quantity    = SimpleIntegerProperty(it[CartItems.quantity]),
-                    unitPrice   = it[Items.unitPrice]
-                )
-            }
+            .map { toDto(it) }
+    }
+
+    fun getItemsByCart(cart: ShoppingCart): List<CartItem> = transaction {
+        (CartItems innerJoin Items)
+            .selectAll().where { CartItems.cartId eq cart.id }
+            .map { toDto(it) }
     }
 
     fun add(cartId: Int, itemId: Int, quantity: Int) = transaction {
@@ -56,4 +55,11 @@ class CartItemRepository {
             .selectAll().where { CartItems.cartId eq cartId }
             .sumOf { it[Items.unitPrice] * it[CartItems.quantity].toBigDecimal() }
     }
+
+    fun toDto(row: ResultRow): CartItem = CartItem(
+        itemId      = row[CartItems.itemId].value,
+        description = row[Items.description],
+        quantity    = SimpleIntegerProperty(row[CartItems.quantity]),
+        unitPrice   = row[Items.unitPrice]
+    )
 }

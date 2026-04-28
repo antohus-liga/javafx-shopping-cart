@@ -26,7 +26,7 @@ application {
     mainClass.set("napetrico.gen.arturroblox.HelloApplication")
 }
 kotlin {
-    jvmToolchain(17)
+    jvmToolchain(21)
 }
 
 javafx {
@@ -48,6 +48,7 @@ dependencies {
     implementation("org.jetbrains.exposed:exposed-dao:1.1.1")
     implementation("org.jetbrains.exposed:exposed-kotlin-datetime:1.1.1")
     implementation("org.jetbrains.exposed:exposed-java-time:1.1.1")
+    implementation("org.xerial:sqlite-jdbc:3.47.1.0")
 }
 
 tasks.withType<Test> {
