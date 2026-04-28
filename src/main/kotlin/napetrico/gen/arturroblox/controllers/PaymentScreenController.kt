@@ -28,6 +28,8 @@ class PaymentScreenController: Initializable {
     @FXML private lateinit var total: TableColumn<Item, BigDecimal>
 
     override fun initialize(url: URL?, rb: ResourceBundle?) {
+        shoppingCartTable.columnResizePolicy = TableView.UNCONSTRAINED_RESIZE_POLICY
+
         quantity.prefWidthProperty().bind(shoppingCartTable.widthProperty().multiply(0.25))
         item.prefWidthProperty().bind(shoppingCartTable.widthProperty().multiply(0.5))
         total.prefWidthProperty().bind(shoppingCartTable.widthProperty().multiply(0.25))

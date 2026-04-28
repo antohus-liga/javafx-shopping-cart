@@ -2,7 +2,8 @@
 
 <?import javafx.scene.control.*?>
 
-<TabPane maxHeight="Infinity" maxWidth="Infinity" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/17.0.12" fx:controller="napetrico.gen.arturroblox.controllers.MainController">
+<TabPane maxHeight="Infinity" maxWidth="Infinity" xmlns:fx="http://javafx.com/fxml/1"
+         xmlns="http://javafx.com/javafx/17.0.12" fx:controller="napetrico.gen.arturroblox.controllers.MainController">
     <Tab closable="false" text="Shopping">
         <fx:include source="tabs/item-shopping.fxml"/>
     </Tab>

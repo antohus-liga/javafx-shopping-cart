@@ -37,12 +37,12 @@
       </HBox>
       <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="40.0">
          <children>
-            <Button mnemonicParsing="false" text="Cancel" onAction="#onCancelClick">
+            <Button mnemonicParsing="false" text="Cancel" onAction="#onCancelClick" styleClass="button, button-secondary">
                <font>
                   <Font size="14.0" />
                </font>
             </Button>
-            <Button mnemonicParsing="false" text="Confirm">
+            <Button mnemonicParsing="false" text="Confirm" styleClass="button, button-success">
                <font>
                   <Font size="14.0" />
                </font>

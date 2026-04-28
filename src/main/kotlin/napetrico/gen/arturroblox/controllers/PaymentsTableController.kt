@@ -22,11 +22,13 @@ class PaymentsTableController: Initializable {
     @FXML private lateinit var itemTotal: TableColumn<CartItem, BigDecimal>
 
     override fun initialize(url: URL?, rb: ResourceBundle?) {
-        paymentsTable.columnResizePolicy = TableView.CONSTRAINED_RESIZE_POLICY_ALL_COLUMNS
+        paymentsTable.columnResizePolicy = TableView.UNCONSTRAINED_RESIZE_POLICY
+
         paymentTotal.prefWidthProperty().bind(paymentsTable.widthProperty().multiply(0.4))
         date.prefWidthProperty().bind(paymentsTable.widthProperty().multiply(0.6))
 
-        paymentDetailsTable.columnResizePolicy = TableView.CONSTRAINED_RESIZE_POLICY_ALL_COLUMNS
+        paymentDetailsTable.columnResizePolicy = TableView.UNCONSTRAINED_RESIZE_POLICY
+
         quantity.prefWidthProperty().bind(paymentDetailsTable.widthProperty().multiply(0.25))
         item.prefWidthProperty().bind(paymentDetailsTable.widthProperty().multiply(0.5))
         itemTotal.prefWidthProperty().bind(paymentDetailsTable.widthProperty().multiply(0.25))
