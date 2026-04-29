@@ -28,11 +28,14 @@ class PaymentScreenController: Initializable {
     @FXML private lateinit var total: TableColumn<Item, BigDecimal>
 
     override fun initialize(url: URL?, rb: ResourceBundle?) {
-        shoppingCartTable.columnResizePolicy = TableView.UNCONSTRAINED_RESIZE_POLICY
+        shoppingCartTable.columnResizePolicy = TableView.CONSTRAINED_RESIZE_POLICY_ALL_COLUMNS
+        shoppingCartTable.widthProperty().addListener { _,  _, newWidth ->
+            val w = newWidth.toDouble()
 
-        quantity.prefWidthProperty().bind(shoppingCartTable.widthProperty().multiply(0.25))
-        item.prefWidthProperty().bind(shoppingCartTable.widthProperty().multiply(0.5))
-        total.prefWidthProperty().bind(shoppingCartTable.widthProperty().multiply(0.25))
+            quantity.maxWidth = w * 0.25
+            item.maxWidth = w * 0.5
+            total.maxWidth = w * 0.25
+        }
 
         val paymentMethods = FXCollections.observableArrayList(
             "MB WAY",

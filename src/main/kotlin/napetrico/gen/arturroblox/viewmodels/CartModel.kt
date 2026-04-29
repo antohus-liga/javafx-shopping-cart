@@ -9,11 +9,11 @@ import napetrico.gen.arturroblox.repositories.CartItemRepository
 import napetrico.gen.arturroblox.repositories.ShoppingCartRepository
 
 class CartModel {
-    private val shoppingCartRepostory = ShoppingCartRepository()
+    private val shoppingCartRepository = ShoppingCartRepository()
     private val cartItemRepository = CartItemRepository()
 
-    val cart: ShoppingCart = shoppingCartRepostory.findUncompleted()?:
-        shoppingCartRepostory.create(NewShoppingCart(false))
+    val cart: ShoppingCart = shoppingCartRepository.findUncompleted()?:
+        shoppingCartRepository.create(NewShoppingCart(false))
     val items: ObservableList<CartItem> = FXCollections.observableArrayList()
 
     init {

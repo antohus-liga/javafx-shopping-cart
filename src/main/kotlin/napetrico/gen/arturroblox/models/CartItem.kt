@@ -9,5 +9,6 @@ data class CartItem(
     var quantity: SimpleIntegerProperty,
     var unitPrice: BigDecimal
 ) {
-    var totalPrice: BigDecimal = unitPrice * quantity.get().toBigDecimal()
+    val totalPrice: BigDecimal
+        get() = unitPrice * quantity.get().toBigDecimal()
 }

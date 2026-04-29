@@ -22,15 +22,21 @@ class PaymentsTableController: Initializable {
     @FXML private lateinit var itemTotal: TableColumn<CartItem, BigDecimal>
 
     override fun initialize(url: URL?, rb: ResourceBundle?) {
-        paymentsTable.columnResizePolicy = TableView.UNCONSTRAINED_RESIZE_POLICY
+        paymentsTable.columnResizePolicy = TableView.CONSTRAINED_RESIZE_POLICY_ALL_COLUMNS
+        paymentsTable.widthProperty().addListener { _, _, newWidth ->
+            val w = newWidth.toDouble()
 
-        paymentTotal.prefWidthProperty().bind(paymentsTable.widthProperty().multiply(0.4))
-        date.prefWidthProperty().bind(paymentsTable.widthProperty().multiply(0.6))
+            paymentTotal.maxWidth = w * 0.40
+            date.maxWidth = w * 0.60
+        }
 
-        paymentDetailsTable.columnResizePolicy = TableView.UNCONSTRAINED_RESIZE_POLICY
+        paymentDetailsTable.columnResizePolicy = TableView.CONSTRAINED_RESIZE_POLICY_ALL_COLUMNS
+        paymentDetailsTable.widthProperty().addListener { _, _, newWidth ->
+            val w = newWidth.toDouble()
 
-        quantity.prefWidthProperty().bind(paymentDetailsTable.widthProperty().multiply(0.25))
-        item.prefWidthProperty().bind(paymentDetailsTable.widthProperty().multiply(0.5))
-        itemTotal.prefWidthProperty().bind(paymentDetailsTable.widthProperty().multiply(0.25))
+            quantity.maxWidth = w * 0.25
+            item.maxWidth = w * 0.50
+            itemTotal.maxWidth = w * 0.25
+        }
     }
 }

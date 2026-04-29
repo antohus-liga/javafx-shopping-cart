@@ -25,11 +25,15 @@ class ItemListController: Initializable {
     @FXML private lateinit var createItem: Button
 
     override fun initialize(url: URL?, rb: ResourceBundle?) {
-        itemsTable.columnResizePolicy = TableView.UNCONSTRAINED_RESIZE_POLICY
+        itemsTable.columnResizePolicy = TableView.CONSTRAINED_RESIZE_POLICY_ALL_COLUMNS
 
-        description.prefWidthProperty().bind(itemsTable.widthProperty().multiply(0.60));
-        unitPrice.prefWidthProperty().bind(itemsTable.widthProperty().multiply(0.20));
-        add.prefWidthProperty().bind(itemsTable.widthProperty().multiply(0.20));
+        itemsTable.widthProperty().addListener { _, _, newWidth ->
+            val w = newWidth.toDouble()
+
+            description.maxWidth = w * 0.60
+            unitPrice.maxWidth = w * 0.20
+            add.maxWidth = w * 0.20
+        }
     }
 
     @FXML
