@@ -3,11 +3,12 @@ package napetrico.gen.arturroblox.utils.assets
 import javafx.event.EventHandler
 import javafx.scene.control.Button
 import javafx.scene.control.TableCell
+import javafx.scene.input.MouseEvent
 import javafx.scene.shape.SVGPath
 
 class ButtonTableCell<T>(
     svg: String,
-    private val onClick: (T) -> Unit
+    private val onClick: (T, MouseEvent) -> Unit
 ) : TableCell<T, Void>() {
     val path = SVGPath().apply {
         content = svg
@@ -16,9 +17,8 @@ class ButtonTableCell<T>(
     private val button = Button().apply {
         style = "-fx-font-size: 12; -fx-alignment: center;"
         graphic = path
-        onAction = EventHandler {
-            tableRow.item?.let(onClick)
-            tableView.refresh()
+        onMouseClicked = EventHandler { event ->
+            tableRow.item?.let { onClick(it, event) }
         }
     }
 

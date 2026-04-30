@@ -1,8 +1,6 @@
 package napetrico.gen.arturroblox.controllers
 
 import javafx.beans.binding.Bindings
-import javafx.beans.property.SimpleObjectProperty
-import javafx.beans.property.SimpleStringProperty
 import javafx.fxml.FXML
 import javafx.fxml.FXMLLoader
 import javafx.fxml.Initializable
@@ -61,17 +59,27 @@ class ShoppingCartController: Initializable {
             total.maxWidth = w * 0.20
         }
 
-        quantity.cellValueFactory = Callback { it.value.quantity.asObject() }
-        item.cellValueFactory = Callback { SimpleStringProperty(it.value.description) }
-        total.cellValueFactory = Callback { SimpleObjectProperty(it.value.totalPrice) }
+        quantity.cellValueFactory = Callback { it.value.quantityProperty.asObject() }
+        item.cellValueFactory = Callback { it.value.descriptionProperty }
+        total.cellValueFactory = Callback { it.value.totalPriceProperty }
         add.cellFactory = Callback {
-            ButtonTableCell<CartItem>(Assets.PLUS_ICON) { row ->
-                row.quantity.set(row.quantity.get() + 1)
+            ButtonTableCell<CartItem>(Assets.PLUS_ICON) { row, e ->
+                val delta = when {
+                    e.isShiftDown -> 10
+                    e.isControlDown -> 5
+                    else -> 1
+                }
+                row.quantityProperty.set(row.quantityProperty.get() + delta)
             }
         }
         sub.cellFactory = Callback {
-            ButtonTableCell<CartItem>(Assets.MINUS_ICON) { row ->
-                row.quantity.set(row.quantity.get() - 1)
+            ButtonTableCell<CartItem>(Assets.MINUS_ICON) { row, e ->
+                val delta = when {
+                    e.isShiftDown -> 10
+                    e.isControlDown -> 5
+                    else -> 1
+                }
+                row.quantityProperty.set(row.quantityProperty.get() - delta)
             }
         }
     }
@@ -103,7 +111,7 @@ class ShoppingCartController: Initializable {
             )
             showAndWait().ifPresent { response ->
                 if (response == ButtonType.OK) {
-                    cart.items.clear()
+                    cartModel.emptyShoppingCart()
                 }
             }
         }

@@ -25,4 +25,9 @@ class CartModel {
     fun createNewShoppingCart() {
         currentCart = shoppingCartRepository.create(NewShoppingCart(false))
     }
+
+    fun emptyShoppingCart() {
+        items.clear()
+//        cartItemRepository.remove(currentCart.id.value) // this line is commented for testing purposes
+    }
 }

@@ -1,6 +1,5 @@
 package napetrico.gen.arturroblox.repositories
 
-import javafx.beans.property.SimpleIntegerProperty
 import napetrico.gen.arturroblox.dsl.CartItems
 import napetrico.gen.arturroblox.dsl.Items
 import napetrico.gen.arturroblox.entities.ShoppingCart
@@ -46,6 +45,10 @@ class CartItemRepository {
         CartItems.deleteWhere { (CartItems.cartId eq cartId) and (CartItems.itemId eq itemId) }
     }
 
+    fun remove(cartId: Int) = transaction {
+        CartItems.deleteWhere { CartItems.cartId eq cartId }
+    }
+
     fun clear(cartId: Int) = transaction {
         CartItems.deleteWhere { CartItems.cartId eq cartId }
     }
@@ -59,7 +62,7 @@ class CartItemRepository {
     fun toDto(row: ResultRow): CartItem = CartItem(
         itemId      = row[CartItems.itemId].value,
         description = row[Items.description],
-        quantity    = SimpleIntegerProperty(row[CartItems.quantity]),
+        quantity    = row[CartItems.quantity],
         unitPrice   = row[Items.unitPrice]
     )
 }
