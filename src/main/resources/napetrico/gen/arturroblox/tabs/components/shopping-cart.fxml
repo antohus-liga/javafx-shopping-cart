@@ -18,8 +18,8 @@
         <columns>
             <TableColumn fx:id="add" text="+"/>
             <TableColumn fx:id="sub" text="-"/>
-            <TableColumn fx:id="quantity" text="Quantity"/>
             <TableColumn fx:id="item" text="Item"/>
+            <TableColumn fx:id="quantity" text="Quantity"/>
             <TableColumn fx:id="total" text="Total"/>
         </columns>
     </TableView>

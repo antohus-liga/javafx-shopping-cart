@@ -66,6 +66,8 @@
 }
 
 .table-cell {
+    -fx-font-size: 16px;
+    -fx-alignment: center-left;
     -fx-text-fill: #334155;
 }
 

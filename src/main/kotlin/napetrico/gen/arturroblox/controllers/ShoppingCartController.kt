@@ -1,21 +1,25 @@
 package napetrico.gen.arturroblox.controllers
 
+import javafx.beans.binding.Bindings
 import javafx.beans.property.SimpleObjectProperty
 import javafx.beans.property.SimpleStringProperty
 import javafx.event.EventHandler
 import javafx.fxml.FXML
 import javafx.fxml.FXMLLoader
 import javafx.fxml.Initializable
-import javafx.geometry.Pos
 import javafx.scene.Parent
+import javafx.scene.control.Alert
 import javafx.scene.control.Button
+import javafx.scene.control.ButtonType
 import javafx.scene.control.TableCell
 import javafx.scene.control.TableColumn
 import javafx.scene.control.TableView
+import javafx.scene.shape.SVGPath
 import javafx.stage.Modality
 import javafx.stage.Stage
 import javafx.util.Callback
 import napetrico.gen.arturroblox.models.CartItem
+import napetrico.gen.arturroblox.utils.assets.Assets
 import napetrico.gen.arturroblox.utils.extensions.toStyledScene
 import napetrico.gen.arturroblox.viewmodels.CartModel
 import java.math.BigDecimal
@@ -38,6 +42,8 @@ class ShoppingCartController: Initializable {
     fun init(model: CartModel) {
         this.cartModel = model
         cart.items = cartModel.items
+
+        purchase.disableProperty().bind(Bindings.isEmpty(cartModel.items))
     }
 
     override fun initialize(url: URL?, rb: ResourceBundle?) {
@@ -57,11 +63,11 @@ class ShoppingCartController: Initializable {
         total.cellValueFactory = Callback { SimpleObjectProperty(it.value.totalPrice) }
         add.cellFactory = Callback {
             object : TableCell<CartItem, Void>() {
-                private val button = Button("+")
+                private val button = Button().apply {
+                    style = "-fx-font-size: 14; -fx-alignment: center;"
+                }
 
                 init {
-                    alignment = Pos.CENTER
-
                     button.onAction = EventHandler {
                         val row = tableRow.item ?: return@EventHandler
                         row.quantity.set(row.quantity.get() + 1)
@@ -71,17 +77,20 @@ class ShoppingCartController: Initializable {
 
                 override fun updateItem(item: Void?, empty: Boolean) {
                     super.updateItem(item, empty)
+                    val svg = SVGPath()
+                    svg.content = Assets.PLUS_ICON
+                    button.graphic = svg
                     graphic = if (empty) null else button
                 }
             }
         }
         sub.cellFactory = Callback {
             object : TableCell<CartItem, Void>() {
-                private val button = Button("-")
+                private val button = Button().apply {
+                    style = "-fx-font-size: 14; -fx-alignment: center;"
+                }
 
                 init {
-                    alignment = Pos.CENTER
-
                     button.onAction = EventHandler {
                         val row = tableRow.item ?: return@EventHandler
                         row.quantity.set(row.quantity.get() - 1)
@@ -91,6 +100,9 @@ class ShoppingCartController: Initializable {
 
                 override fun updateItem(item: Void?, empty: Boolean) {
                     super.updateItem(item, empty)
+                    val svg = SVGPath()
+                    svg.content = Assets.MINUS_ICON
+                    button.graphic = svg
                     graphic = if (empty) null else button
                 }
             }
@@ -99,7 +111,9 @@ class ShoppingCartController: Initializable {
 
     @FXML
     fun onPurchaseClick() {
-        val loader = FXMLLoader(javaClass.getResource("/napetrico/gen/arturroblox/forms/payment-screen.fxml"))
+        val loader = FXMLLoader(
+            javaClass.getResource("/napetrico/gen/arturroblox/forms/payment-screen.fxml")
+        )
         val root = loader.load<Parent>()
 
         val stage = Stage().apply {
@@ -113,6 +127,18 @@ class ShoppingCartController: Initializable {
 
     @FXML
     fun onClearClick() {
-        cart.items.clear()
+        Alert(Alert.AlertType.WARNING).apply {
+            title = "Clear Cart"
+            headerText = "Are you sure you want to clear this cart?"
+            contentText = "If you confirm this action, the cart will be emptied."
+            dialogPane.stylesheets.add(
+                javaClass.getResource("/napetrico/gen/arturroblox/styles/styles.css")!!.toExternalForm()
+            )
+            showAndWait().ifPresent { response ->
+                if (response == ButtonType.OK) {
+                    cart.items.clear()
+                }
+            }
+        }
     }
 }
