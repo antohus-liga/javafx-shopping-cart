@@ -20,6 +20,7 @@ import javafx.stage.Stage
 import javafx.util.Callback
 import napetrico.gen.arturroblox.models.CartItem
 import napetrico.gen.arturroblox.utils.assets.Assets
+import napetrico.gen.arturroblox.utils.assets.ButtonTableCell
 import napetrico.gen.arturroblox.utils.extensions.toStyledScene
 import napetrico.gen.arturroblox.viewmodels.CartModel
 import java.math.BigDecimal
@@ -62,49 +63,13 @@ class ShoppingCartController: Initializable {
         item.cellValueFactory = Callback { SimpleStringProperty(it.value.description) }
         total.cellValueFactory = Callback { SimpleObjectProperty(it.value.totalPrice) }
         add.cellFactory = Callback {
-            object : TableCell<CartItem, Void>() {
-                private val button = Button().apply {
-                    style = "-fx-font-size: 14; -fx-alignment: center;"
-                }
-
-                init {
-                    button.onAction = EventHandler {
-                        val row = tableRow.item ?: return@EventHandler
-                        row.quantity.set(row.quantity.get() + 1)
-                        tableView.refresh()
-                    }
-                }
-
-                override fun updateItem(item: Void?, empty: Boolean) {
-                    super.updateItem(item, empty)
-                    val svg = SVGPath()
-                    svg.content = Assets.PLUS_ICON
-                    button.graphic = svg
-                    graphic = if (empty) null else button
-                }
+            ButtonTableCell(Assets.PLUS_ICON) { row ->
+                row.quantity.set(row.quantity.get() + 1)
             }
         }
         sub.cellFactory = Callback {
-            object : TableCell<CartItem, Void>() {
-                private val button = Button().apply {
-                    style = "-fx-font-size: 14; -fx-alignment: center;"
-                }
-
-                init {
-                    button.onAction = EventHandler {
-                        val row = tableRow.item ?: return@EventHandler
-                        row.quantity.set(row.quantity.get() - 1)
-                        tableView.refresh()
-                    }
-                }
-
-                override fun updateItem(item: Void?, empty: Boolean) {
-                    super.updateItem(item, empty)
-                    val svg = SVGPath()
-                    svg.content = Assets.MINUS_ICON
-                    button.graphic = svg
-                    graphic = if (empty) null else button
-                }
+            ButtonTableCell(Assets.MINUS_ICON) { row ->
+                row.quantity.set(row.quantity.get() - 1)
             }
         }
     }
