@@ -49,12 +49,15 @@ class ShoppingCartController: Initializable {
         cart.columnResizePolicy = TableView.CONSTRAINED_RESIZE_POLICY_ALL_COLUMNS
 
         cart.widthProperty().addListener { _, _, newWidth ->
-            val w = newWidth.toDouble()
+            val buttonColumnWidth = 40.0
+            // Width = table width - 2 button columns
+            val w = (newWidth.toDouble() - buttonColumnWidth * 2)
 
-            add.maxWidth = w * 0.05
-            sub.maxWidth = w * 0.05
+            // Buttons have fixed size because they can't get neither bigger nor smaller
+            add.maxWidth = buttonColumnWidth
+            sub.maxWidth = buttonColumnWidth
             quantity.maxWidth = w * 0.20
-            item.maxWidth = w * 0.50
+            item.maxWidth = w * 0.60
             total.maxWidth = w * 0.20
         }
 
@@ -62,12 +65,12 @@ class ShoppingCartController: Initializable {
         item.cellValueFactory = Callback { SimpleStringProperty(it.value.description) }
         total.cellValueFactory = Callback { SimpleObjectProperty(it.value.totalPrice) }
         add.cellFactory = Callback {
-            ButtonTableCell(Assets.PLUS_ICON) { row ->
+            ButtonTableCell<CartItem>(Assets.PLUS_ICON) { row ->
                 row.quantity.set(row.quantity.get() + 1)
             }
         }
         sub.cellFactory = Callback {
-            ButtonTableCell(Assets.MINUS_ICON) { row ->
+            ButtonTableCell<CartItem>(Assets.MINUS_ICON) { row ->
                 row.quantity.set(row.quantity.get() - 1)
             }
         }

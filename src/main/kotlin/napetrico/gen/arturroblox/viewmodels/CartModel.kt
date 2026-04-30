@@ -13,12 +13,16 @@ class CartModel {
     private val cartItemRepository = CartItemRepository()
 
     // We find the uncompleted cart, if there's none, a new one is creted
-    val cart: ShoppingCart = shoppingCartRepository.findUncompleted()?:
+    var currentCart: ShoppingCart = shoppingCartRepository.findUncompleted()?:
         shoppingCartRepository.create(NewShoppingCart(false))
     val items: ObservableList<CartItem> = FXCollections.observableArrayList()
 
     init {
         // The items of the uncompleted cart are loaded to be shown on the item-shopping screen
-        items.addAll(cartItemRepository.getItemsByCart(cart))
+        items.addAll(cartItemRepository.getItemsByCart(currentCart))
+    }
+
+    fun createNewShoppingCart() {
+        currentCart = shoppingCartRepository.create(NewShoppingCart(false))
     }
 }

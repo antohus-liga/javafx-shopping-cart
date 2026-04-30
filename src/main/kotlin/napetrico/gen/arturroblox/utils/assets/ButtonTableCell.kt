@@ -4,12 +4,11 @@ import javafx.event.EventHandler
 import javafx.scene.control.Button
 import javafx.scene.control.TableCell
 import javafx.scene.shape.SVGPath
-import napetrico.gen.arturroblox.models.CartItem
 
-class ButtonTableCell(
+class ButtonTableCell<T>(
     svg: String,
-    private val onClick: (CartItem) -> Unit
-) : TableCell<CartItem, Void>() {
+    private val onClick: (T) -> Unit
+) : TableCell<T, Void>() {
     val path = SVGPath().apply {
         content = svg
     }
