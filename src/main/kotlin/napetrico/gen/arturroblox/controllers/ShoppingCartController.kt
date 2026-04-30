@@ -3,7 +3,6 @@ package napetrico.gen.arturroblox.controllers
 import javafx.beans.binding.Bindings
 import javafx.beans.property.SimpleObjectProperty
 import javafx.beans.property.SimpleStringProperty
-import javafx.event.EventHandler
 import javafx.fxml.FXML
 import javafx.fxml.FXMLLoader
 import javafx.fxml.Initializable
@@ -11,10 +10,8 @@ import javafx.scene.Parent
 import javafx.scene.control.Alert
 import javafx.scene.control.Button
 import javafx.scene.control.ButtonType
-import javafx.scene.control.TableCell
 import javafx.scene.control.TableColumn
 import javafx.scene.control.TableView
-import javafx.scene.shape.SVGPath
 import javafx.stage.Modality
 import javafx.stage.Stage
 import javafx.util.Callback
@@ -40,7 +37,8 @@ class ShoppingCartController: Initializable {
 
     lateinit var cartModel: CartModel
 
-    fun init(model: CartModel) {
+    // Anything data-related is supposed to go in this function, since it's where the data comes from
+    fun initData(model: CartModel) {
         this.cartModel = model
         cart.items = cartModel.items
 
@@ -52,6 +50,7 @@ class ShoppingCartController: Initializable {
 
         cart.widthProperty().addListener { _, _, newWidth ->
             val w = newWidth.toDouble()
+
             add.maxWidth = w * 0.05
             sub.maxWidth = w * 0.05
             quantity.maxWidth = w * 0.20

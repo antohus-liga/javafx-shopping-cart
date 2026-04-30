@@ -14,6 +14,6 @@ class ItemShoppingController : Initializable {
     private val cartModel = CartModel()
 
     override fun initialize(p0: URL?, p1: ResourceBundle?) {
-        shoppingCartController.init(cartModel)
+        shoppingCartController.initData(cartModel)
     }
 }

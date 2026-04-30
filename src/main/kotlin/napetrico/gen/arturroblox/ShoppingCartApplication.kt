@@ -3,7 +3,6 @@ package napetrico.gen.arturroblox
 import javafx.application.Application
 import javafx.fxml.FXMLLoader
 import javafx.scene.Parent
-import javafx.scene.Scene
 import javafx.stage.Stage
 import napetrico.gen.arturroblox.utils.extensions.toStyledScene
 

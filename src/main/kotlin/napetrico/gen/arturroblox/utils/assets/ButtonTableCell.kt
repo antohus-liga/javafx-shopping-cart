@@ -15,7 +15,7 @@ class ButtonTableCell(
     }
 
     private val button = Button().apply {
-        style = "-fx-font-size: 14; -fx-alignment: center;"
+        style = "-fx-font-size: 12; -fx-alignment: center;"
         graphic = path
         onAction = EventHandler {
             tableRow.item?.let(onClick)

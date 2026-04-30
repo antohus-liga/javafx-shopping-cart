@@ -1,6 +1,5 @@
 package napetrico.gen.arturroblox.repositories
 
-import napetrico.gen.arturroblox.entities.Item
 import napetrico.gen.arturroblox.entities.Payment
 import napetrico.gen.arturroblox.models.NewPayment
 import org.jetbrains.exposed.v1.jdbc.transactions.transaction
