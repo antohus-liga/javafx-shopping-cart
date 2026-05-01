@@ -47,15 +47,15 @@ class ShoppingCartController: Initializable {
     override fun initialize(url: URL?, rb: ResourceBundle?) {
         cart.columnResizePolicy = TableView.CONSTRAINED_RESIZE_POLICY_ALL_COLUMNS
 
+        val tableButtons = arrayOf(add, sub, remove)
+
         cart.widthProperty().addListener { _, _, newWidth ->
             val buttonColumnWidth = 45.0
-            // Width = table width - 3 button columns
-            val w = (newWidth.toDouble() - buttonColumnWidth * 3)
+            // Width = table width - tableButtons size
+            val w = (newWidth.toDouble() - buttonColumnWidth * tableButtons.size)
 
             // Buttons have fixed size because they can't get neither bigger nor smaller
-            add.maxWidth = buttonColumnWidth
-            sub.maxWidth = buttonColumnWidth
-            remove.maxWidth = buttonColumnWidth
+            tableButtons.forEach { it.maxWidth = buttonColumnWidth }
             quantity.maxWidth = w * 0.20
             item.maxWidth = w * 0.60
             total.maxWidth = w * 0.20
