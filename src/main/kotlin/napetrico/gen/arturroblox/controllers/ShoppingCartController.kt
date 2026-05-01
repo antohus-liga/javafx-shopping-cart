@@ -29,6 +29,7 @@ class ShoppingCartController: Initializable {
     @FXML private lateinit var quantity: TableColumn<CartItem, Int>
     @FXML private lateinit var item: TableColumn<CartItem, String>
     @FXML private lateinit var total: TableColumn<CartItem, BigDecimal>
+    @FXML private lateinit var remove: TableColumn<CartItem, Void>
 
     @FXML private lateinit var purchase: Button
     @FXML private lateinit var clear: Button
@@ -47,13 +48,14 @@ class ShoppingCartController: Initializable {
         cart.columnResizePolicy = TableView.CONSTRAINED_RESIZE_POLICY_ALL_COLUMNS
 
         cart.widthProperty().addListener { _, _, newWidth ->
-            val buttonColumnWidth = 40.0
-            // Width = table width - 2 button columns
-            val w = (newWidth.toDouble() - buttonColumnWidth * 2)
+            val buttonColumnWidth = 45.0
+            // Width = table width - 3 button columns
+            val w = (newWidth.toDouble() - buttonColumnWidth * 3)
 
             // Buttons have fixed size because they can't get neither bigger nor smaller
             add.maxWidth = buttonColumnWidth
             sub.maxWidth = buttonColumnWidth
+            remove.maxWidth = buttonColumnWidth
             quantity.maxWidth = w * 0.20
             item.maxWidth = w * 0.60
             total.maxWidth = w * 0.20
@@ -69,17 +71,22 @@ class ShoppingCartController: Initializable {
                     e.isControlDown -> 5
                     else -> 1
                 }
-                row.quantityProperty.set(row.quantityProperty.get() + delta)
+                cartModel.changeQuantity(row, delta)
             }
         }
         sub.cellFactory = Callback {
             ButtonTableCell<CartItem>(Assets.MINUS_ICON) { row, e ->
                 val delta = when {
-                    e.isShiftDown -> 10
-                    e.isControlDown -> 5
-                    else -> 1
+                    e.isShiftDown -> -10
+                    e.isControlDown -> -5
+                    else -> -1
                 }
-                row.quantityProperty.set(row.quantityProperty.get() - delta)
+                cartModel.changeQuantity(row, delta)
+            }
+        }
+        remove.cellFactory = Callback {
+            ButtonTableCell<CartItem>(Assets.TRASH_ICON) { row, _ ->
+                cartModel.removeItem(row)
             }
         }
     }

@@ -21,6 +21,7 @@
             <TableColumn fx:id="item" text="Item"/>
             <TableColumn fx:id="quantity" text="Quantity"/>
             <TableColumn fx:id="total" text="Total"/>
+            <TableColumn fx:id="remove" text="✕"/>
         </columns>
     </TableView>
     <HBox spacing="30.0"

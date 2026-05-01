@@ -13,6 +13,9 @@ class ShoppingCartApplication : Application() {
         ).load<Parent>()
 
         stage.scene = root.toStyledScene()
+        // This size is hardcoded to be just enough to show everything that is needed to be seen
+        stage.width = 750.0
+        stage.minWidth = 750.0
 
         stage.title = "Shopping Cart"
         stage.show()
