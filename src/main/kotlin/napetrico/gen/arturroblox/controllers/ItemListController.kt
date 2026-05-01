@@ -1,5 +1,6 @@
 package napetrico.gen.arturroblox.controllers
 
+import javafx.beans.property.SimpleStringProperty
 import javafx.event.EventHandler
 import javafx.fxml.FXML
 import javafx.fxml.FXMLLoader
@@ -26,7 +27,7 @@ import java.util.ResourceBundle
 class ItemListController: Initializable {
     @FXML private lateinit var itemsTable: TableView<ItemModel>
     @FXML private lateinit var description: TableColumn<ItemModel, String>
-    @FXML private lateinit var unitPrice: TableColumn<ItemModel, BigDecimal>
+    @FXML private lateinit var unitPrice: TableColumn<ItemModel, String>
     @FXML private lateinit var add: TableColumn<ItemModel, Void>
     @FXML private lateinit var remove: TableColumn<ItemModel, Void>
 
@@ -78,7 +79,11 @@ class ItemListController: Initializable {
         }
 
         description.cellValueFactory = Callback { it.value.descriptionProperty }
-        unitPrice.cellValueFactory = Callback { it.value.unitPriceProperty }
+        unitPrice.cellValueFactory = Callback {
+            SimpleStringProperty(
+                "${it.value.unitPriceProperty.get()} €".replace(".", ",")
+            )
+        }
         add.cellFactory = Callback {
             ButtonTableCell<ItemModel>(Assets.CART_ICON) { row, e ->
                 cartViewModel.addItem(row)
@@ -93,7 +98,7 @@ class ItemListController: Initializable {
     }
 
     private fun openEditForm(item: ItemModel) {
-        val loader = FXMLLoader(javaClass.getResource("/napetrico/gen/arturroblox/forms/item-from.fxml"))
+        val loader = FXMLLoader(javaClass.getResource("/napetrico/gen/arturroblox/forms/item-form.fxml"))
         val root = loader.load<Parent>()
 
         val controller = loader.getController<ItemFormController>()
@@ -102,14 +107,14 @@ class ItemListController: Initializable {
         Stage().apply {
             scene = root.toStyledScene()
             initModality(Modality.APPLICATION_MODAL)
-            title = "Edit Item"
+            title = "Edit Item ${item.descriptionProperty.get()}"
             show()
         }
     }
 
     @FXML
     fun onCreateItemClick() {
-        val loader = FXMLLoader(javaClass.getResource("/napetrico/gen/arturroblox/forms/item-from.fxml"))
+        val loader = FXMLLoader(javaClass.getResource("/napetrico/gen/arturroblox/forms/item-form.fxml"))
         val root = loader.load<Parent>()
 
         val controller = loader.getController<ItemFormController>()

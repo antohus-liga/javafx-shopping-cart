@@ -58,7 +58,7 @@ class ItemFormController {
             return
         }
         val unitPrice = try {
-            val parsed = BigDecimal(unitPrice.text.trim())
+            val parsed = BigDecimal(unitPrice.text.replace(",", ".").trim())
             if (parsed.scale() > 2) throw NumberFormatException()
 
             parsed.setScale(2)

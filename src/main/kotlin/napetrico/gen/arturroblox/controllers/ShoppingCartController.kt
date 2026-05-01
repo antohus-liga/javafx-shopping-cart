@@ -1,6 +1,7 @@
 package napetrico.gen.arturroblox.controllers
 
 import javafx.beans.binding.Bindings
+import javafx.beans.property.SimpleStringProperty
 import javafx.fxml.FXML
 import javafx.fxml.FXMLLoader
 import javafx.fxml.Initializable
@@ -28,7 +29,7 @@ class ShoppingCartController: Initializable {
     @FXML private lateinit var sub: TableColumn<CartItemModel, Void>
     @FXML private lateinit var quantity: TableColumn<CartItemModel, Int>
     @FXML private lateinit var item: TableColumn<CartItemModel, String>
-    @FXML private lateinit var total: TableColumn<CartItemModel, BigDecimal>
+    @FXML private lateinit var total: TableColumn<CartItemModel, String>
     @FXML private lateinit var remove: TableColumn<CartItemModel, Void>
 
     @FXML private lateinit var purchase: Button
@@ -63,7 +64,11 @@ class ShoppingCartController: Initializable {
 
         quantity.cellValueFactory = Callback { it.value.quantityProperty.asObject() }
         item.cellValueFactory = Callback { it.value.descriptionProperty }
-        total.cellValueFactory = Callback { it.value.totalPriceProperty }
+        total.cellValueFactory = Callback {
+            SimpleStringProperty(
+                "${it.value.totalPriceProperty.get()} €".replace(".", ",")
+            )
+        }
         add.cellFactory = Callback {
             ButtonTableCell<CartItemModel>(Assets.PLUS_ICON) { row, e ->
                 val delta = when {
@@ -97,6 +102,9 @@ class ShoppingCartController: Initializable {
             javaClass.getResource("/napetrico/gen/arturroblox/forms/payment-screen.fxml")
         )
         val root = loader.load<Parent>()
+
+        val controller = loader.getController<PaymentScreenController>()
+        controller.initData(cartViewModel)
 
         val stage = Stage().apply {
             scene = root.toStyledScene()

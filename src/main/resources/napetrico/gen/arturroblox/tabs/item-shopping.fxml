@@ -3,6 +3,8 @@
 <?import javafx.scene.layout.*?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.text.Font?>
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             maxWidth="Infinity" maxHeight="Infinity"
@@ -15,7 +17,24 @@
           AnchorPane.bottomAnchor="10.0"
           AnchorPane.leftAnchor="10.0"
           AnchorPane.rightAnchor="10.0">
-        <fx:include fx:id="itemList" source="components/item-list.fxml" HBox.hgrow="ALWAYS"/>
-        <fx:include fx:id="shoppingCart" source="components/shopping-cart.fxml" HBox.hgrow="ALWAYS"/>
+        <VBox maxWidth="Infinity" maxHeight="Infinity" HBox.hgrow="ALWAYS">
+            <Label>
+                Items
+                <font>
+                    <Font size="20"/>
+                </font>
+            </Label>
+            <fx:include fx:id="itemList" source="components/item-list.fxml" VBox.vgrow="ALWAYS"/>
+        </VBox>
+
+        <VBox maxWidth="Infinity" maxHeight="Infinity" HBox.hgrow="ALWAYS">
+            <Label>
+                Cart
+                <font>
+                    <Font size="20"/>
+                </font>
+            </Label>
+            <fx:include fx:id="shoppingCart" source="components/shopping-cart.fxml" VBox.vgrow="ALWAYS"/>
+        </VBox>
     </HBox>
 </AnchorPane>

@@ -70,4 +70,6 @@ class CartViewModel {
             it.unitPriceProperty.set(item.unitPriceProperty.get())
         }
     }
+
+    fun getCartTotal() = items.sumOf { it.totalPriceProperty.get() }
 }
