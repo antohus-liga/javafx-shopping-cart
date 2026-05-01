@@ -12,12 +12,10 @@
     <padding>
         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
     </padding>
-    <!-- HBox fills the entire AnchorPane -->
     <HBox spacing="8.0"
           AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0"
           AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
 
-        <!-- Left table: takes 40% of space -->
         <TableView fx:id="paymentsTable" HBox.hgrow="ALWAYS" maxWidth="Infinity" maxHeight="Infinity">
             <columns>
                 <TableColumn fx:id="paymentTotal" text="Total"/>
@@ -25,7 +23,6 @@
             </columns>
         </TableView>
 
-        <!-- Right table: takes 60% of space -->
         <TableView fx:id="paymentDetailsTable" HBox.hgrow="ALWAYS" maxWidth="Infinity" maxHeight="Infinity">
             <columns>
                 <TableColumn fx:id="quantity" text="Quantity"/>

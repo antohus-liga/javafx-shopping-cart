@@ -132,6 +132,10 @@
     -fx-text-fill: #334155;
 }
 
+.error-label {
+    -fx-text-fill: red;
+}
+
 /* ---------------- DIALOG PANELS ---------------- */
 
 .anchor-pane,

@@ -1,17 +1,18 @@
 package napetrico.gen.arturroblox.controllers
 
+import javafx.event.EventHandler
 import javafx.fxml.FXML
 import javafx.fxml.FXMLLoader
 import javafx.fxml.Initializable
 import javafx.scene.Parent
 import javafx.scene.control.Button
 import javafx.scene.control.TableColumn
+import javafx.scene.control.TableRow
 import javafx.scene.control.TableView
-import javafx.scene.layout.AnchorPane
+import javafx.scene.input.MouseButton
 import javafx.stage.Modality
 import javafx.stage.Stage
 import javafx.util.Callback
-import napetrico.gen.arturroblox.models.CartItemModel
 import napetrico.gen.arturroblox.models.ItemModel
 import napetrico.gen.arturroblox.utils.assets.Assets
 import napetrico.gen.arturroblox.utils.assets.ButtonTableCell
@@ -27,6 +28,7 @@ class ItemListController: Initializable {
     @FXML private lateinit var description: TableColumn<ItemModel, String>
     @FXML private lateinit var unitPrice: TableColumn<ItemModel, BigDecimal>
     @FXML private lateinit var add: TableColumn<ItemModel, Void>
+    @FXML private lateinit var remove: TableColumn<ItemModel, Void>
 
     @FXML private lateinit var createItem: Button
 
@@ -50,7 +52,7 @@ class ItemListController: Initializable {
             unitPrice.maxWidth = w * 0.20
             add.maxWidth = w * 0.20
         }
-        val tableButtons = arrayOf(add)
+        val tableButtons = arrayOf(add, remove)
 
         itemsTable.widthProperty().addListener { _, _, newWidth ->
             val buttonColumnWidth = 45.0
@@ -63,6 +65,18 @@ class ItemListController: Initializable {
             unitPrice.maxWidth = w * 0.30
         }
 
+        itemsTable.rowFactory = Callback {
+            val row = TableRow<ItemModel>()
+
+            row.onMouseClicked = EventHandler { event ->
+                if (event.button == MouseButton.SECONDARY && !row.isEmpty) {
+                    openEditForm(row.item)
+                }
+            }
+
+            row
+        }
+
         description.cellValueFactory = Callback { it.value.descriptionProperty }
         unitPrice.cellValueFactory = Callback { it.value.unitPriceProperty }
         add.cellFactory = Callback {
@@ -70,12 +84,36 @@ class ItemListController: Initializable {
                 cartViewModel.addItem(row)
             }
         }
+        remove.cellFactory = Callback {
+            ButtonTableCell<ItemModel>(Assets.TRASH_ICON) { row, e ->
+                itemViewModel.remove(row)
+                cartViewModel.removeItem(row)
+            }
+        }
+    }
+
+    private fun openEditForm(item: ItemModel) {
+        val loader = FXMLLoader(javaClass.getResource("/napetrico/gen/arturroblox/forms/item-from.fxml"))
+        val root = loader.load<Parent>()
+
+        val controller = loader.getController<ItemFormController>()
+        controller.initEdit(itemViewModel, cartViewModel, item)
+
+        Stage().apply {
+            scene = root.toStyledScene()
+            initModality(Modality.APPLICATION_MODAL)
+            title = "Edit Item"
+            show()
+        }
     }
 
     @FXML
     fun onCreateItemClick() {
-        val loader = FXMLLoader(javaClass.getResource("/napetrico/gen/arturroblox/forms/add-item.fxml"))
+        val loader = FXMLLoader(javaClass.getResource("/napetrico/gen/arturroblox/forms/item-from.fxml"))
         val root = loader.load<Parent>()
+
+        val controller = loader.getController<ItemFormController>()
+        controller.initCreate(itemViewModel)
 
         val stage = Stage().apply {
             scene = root.toStyledScene()

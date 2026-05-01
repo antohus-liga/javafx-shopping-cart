@@ -27,7 +27,7 @@ class CartItemRepository {
             .map { toDto(it) }
     }
 
-    fun add(cartId: Int, itemId: Int, quantity: Int) = transaction {
+    fun create(cartId: Int, itemId: Int, quantity: Int) = transaction {
         CartItems.insert {
             it[CartItems.cartId] = cartId
             it[CartItems.itemId] = itemId
@@ -43,10 +43,6 @@ class CartItemRepository {
 
     fun remove(cartId: Int, itemId: Int) = transaction {
         CartItems.deleteWhere { (CartItems.cartId eq cartId) and (CartItems.itemId eq itemId) }
-    }
-
-    fun remove(cartId: Int) = transaction {
-        CartItems.deleteWhere { CartItems.cartId eq cartId }
     }
 
     fun clear(cartId: Int) = transaction {

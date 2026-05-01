@@ -37,15 +37,21 @@ class CartViewModel {
             item.unitPriceProperty.value
         )
         items.add(cartItem)
-        cartItemRepository.add(currentCart.id.value, item.id, 1)
+        cartItemRepository.create(currentCart.id.value, item.id, 1)
     }
 
     fun emptyShoppingCart() {
         items.clear()
-        cartItemRepository.remove(currentCart.id.value)
+        cartItemRepository.clear(currentCart.id.value)
     }
 
     fun removeItem(cartItem: CartItemModel) {
+        items.remove(cartItem)
+        cartItemRepository.remove(currentCart.id.value, cartItem.itemId)
+    }
+
+    fun removeItem(item: ItemModel) {
+        val cartItem = items.find { it.itemId == item.id } ?: return
         items.remove(cartItem)
         cartItemRepository.remove(currentCart.id.value, cartItem.itemId)
     }
@@ -56,5 +62,12 @@ class CartViewModel {
 
         cartItem.quantityProperty.set(newQuantity)
         cartItemRepository.updateQuantity(currentCart.id.value, cartItem.itemId, newQuantity)
+    }
+
+    fun refreshItem(item: ItemModel) {
+        items.find { it.itemId == item.id }?.let {
+            it.descriptionProperty.set(item.descriptionProperty.value)
+            it.unitPriceProperty.set(item.unitPriceProperty.get())
+        }
     }
 }
