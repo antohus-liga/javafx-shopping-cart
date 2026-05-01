@@ -3,7 +3,7 @@ package napetrico.gen.arturroblox.repositories
 import napetrico.gen.arturroblox.dsl.CartItems
 import napetrico.gen.arturroblox.dsl.Items
 import napetrico.gen.arturroblox.entities.ShoppingCart
-import napetrico.gen.arturroblox.models.CartItem
+import napetrico.gen.arturroblox.models.CartItemModel
 import org.jetbrains.exposed.v1.core.ResultRow
 import org.jetbrains.exposed.v1.core.and
 import org.jetbrains.exposed.v1.core.eq
@@ -15,13 +15,13 @@ import org.jetbrains.exposed.v1.jdbc.update
 import java.math.BigDecimal
 
 class CartItemRepository {
-    fun getAll(): List<CartItem> = transaction {
+    fun getAll(): List<CartItemModel> = transaction {
         (CartItems innerJoin Items)
             .selectAll()
             .map { toDto(it) }
     }
 
-    fun getItemsByCart(cart: ShoppingCart): List<CartItem> = transaction {
+    fun getItemsByCart(cart: ShoppingCart): List<CartItemModel> = transaction {
         (CartItems innerJoin Items)
             .selectAll().where { CartItems.cartId eq cart.id }
             .map { toDto(it) }
@@ -59,7 +59,7 @@ class CartItemRepository {
             .sumOf { it[Items.unitPrice] * it[CartItems.quantity].toBigDecimal() }
     }
 
-    fun toDto(row: ResultRow): CartItem = CartItem(
+    fun toDto(row: ResultRow): CartItemModel = CartItemModel(
         itemId      = row[CartItems.itemId].value,
         description = row[Items.description],
         quantity    = row[CartItems.quantity],

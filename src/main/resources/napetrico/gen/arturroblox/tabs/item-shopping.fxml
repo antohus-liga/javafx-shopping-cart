@@ -15,7 +15,7 @@
           AnchorPane.bottomAnchor="10.0"
           AnchorPane.leftAnchor="10.0"
           AnchorPane.rightAnchor="10.0">
-        <fx:include source="components/item-list.fxml" HBox.hgrow="ALWAYS"/>
+        <fx:include fx:id="itemList" source="components/item-list.fxml" HBox.hgrow="ALWAYS"/>
         <fx:include fx:id="shoppingCart" source="components/shopping-cart.fxml" HBox.hgrow="ALWAYS"/>
     </HBox>
 </AnchorPane>

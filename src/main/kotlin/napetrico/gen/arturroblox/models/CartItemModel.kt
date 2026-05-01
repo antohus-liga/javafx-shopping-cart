@@ -6,11 +6,11 @@ import javafx.beans.property.SimpleObjectProperty
 import javafx.beans.property.SimpleStringProperty
 import java.math.BigDecimal
 
-data class CartItem(
+class CartItemModel(
     val itemId: Int,
-    val description: String,
-    val quantity: Int,
-    val unitPrice: BigDecimal
+    description: String,
+    quantity: Int,
+    unitPrice: BigDecimal
 ) {
     val descriptionProperty = SimpleStringProperty(description)
     val quantityProperty = SimpleIntegerProperty(quantity)

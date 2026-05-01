@@ -5,7 +5,7 @@ import javafx.fxml.Initializable
 import javafx.scene.control.TableColumn
 import javafx.scene.control.TableView
 import napetrico.gen.arturroblox.entities.Payment
-import napetrico.gen.arturroblox.models.CartItem
+import napetrico.gen.arturroblox.models.CartItemModel
 import java.math.BigDecimal
 import java.net.URL
 import java.time.LocalDate
@@ -16,10 +16,10 @@ class PaymentsTableController: Initializable {
     @FXML private lateinit var paymentTotal: TableColumn<Payment, BigDecimal>
     @FXML private lateinit var date: TableColumn<Payment, LocalDate>
 
-    @FXML private lateinit var paymentDetailsTable: TableView<CartItem>
-    @FXML private lateinit var quantity: TableColumn<CartItem, Int>
-    @FXML private lateinit var item: TableColumn<CartItem, String>
-    @FXML private lateinit var itemTotal: TableColumn<CartItem, BigDecimal>
+    @FXML private lateinit var paymentDetailsTable: TableView<CartItemModel>
+    @FXML private lateinit var quantity: TableColumn<CartItemModel, Int>
+    @FXML private lateinit var item: TableColumn<CartItemModel, String>
+    @FXML private lateinit var itemTotal: TableColumn<CartItemModel, BigDecimal>
 
     override fun initialize(url: URL?, rb: ResourceBundle?) {
         paymentsTable.columnResizePolicy = TableView.CONSTRAINED_RESIZE_POLICY_ALL_COLUMNS

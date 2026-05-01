@@ -7,21 +7,38 @@ import javafx.scene.Parent
 import javafx.scene.control.Button
 import javafx.scene.control.TableColumn
 import javafx.scene.control.TableView
+import javafx.scene.layout.AnchorPane
 import javafx.stage.Modality
 import javafx.stage.Stage
-import napetrico.gen.arturroblox.entities.Item
+import javafx.util.Callback
+import napetrico.gen.arturroblox.models.CartItemModel
+import napetrico.gen.arturroblox.models.ItemModel
+import napetrico.gen.arturroblox.utils.assets.Assets
+import napetrico.gen.arturroblox.utils.assets.ButtonTableCell
 import napetrico.gen.arturroblox.utils.extensions.toStyledScene
+import napetrico.gen.arturroblox.viewmodels.CartViewModel
+import napetrico.gen.arturroblox.viewmodels.ItemViewModel
 import java.math.BigDecimal
 import java.net.URL
 import java.util.ResourceBundle
 
 class ItemListController: Initializable {
-    @FXML private lateinit var itemsTable: TableView<Item>
-    @FXML private lateinit var description: TableColumn<Item, String>
-    @FXML private lateinit var unitPrice: TableColumn<Item, BigDecimal>
-    @FXML private lateinit var add: TableColumn<Item, Button>
+    @FXML private lateinit var itemsTable: TableView<ItemModel>
+    @FXML private lateinit var description: TableColumn<ItemModel, String>
+    @FXML private lateinit var unitPrice: TableColumn<ItemModel, BigDecimal>
+    @FXML private lateinit var add: TableColumn<ItemModel, Void>
 
     @FXML private lateinit var createItem: Button
+
+    private lateinit var cartViewModel: CartViewModel
+    private lateinit var itemViewModel: ItemViewModel
+
+    fun initData(cartViewModel: CartViewModel, itemViewModel: ItemViewModel) {
+        this.cartViewModel = cartViewModel
+        this.itemViewModel = itemViewModel
+
+        itemsTable.items = itemViewModel.items
+    }
 
     override fun initialize(url: URL?, rb: ResourceBundle?) {
         itemsTable.columnResizePolicy = TableView.CONSTRAINED_RESIZE_POLICY_ALL_COLUMNS
@@ -32,6 +49,26 @@ class ItemListController: Initializable {
             description.maxWidth = w * 0.60
             unitPrice.maxWidth = w * 0.20
             add.maxWidth = w * 0.20
+        }
+        val tableButtons = arrayOf(add)
+
+        itemsTable.widthProperty().addListener { _, _, newWidth ->
+            val buttonColumnWidth = 45.0
+            // Width = table width - tableButtons size
+            val w = (newWidth.toDouble() - buttonColumnWidth * tableButtons.size)
+
+            // Buttons have fixed size because they can't get neither bigger nor smaller
+            tableButtons.forEach { it.maxWidth = buttonColumnWidth }
+            description.maxWidth = w * 0.70
+            unitPrice.maxWidth = w * 0.30
+        }
+
+        description.cellValueFactory = Callback { it.value.descriptionProperty }
+        unitPrice.cellValueFactory = Callback { it.value.unitPriceProperty }
+        add.cellFactory = Callback {
+            ButtonTableCell<ItemModel>(Assets.CART_ICON) { row, e ->
+                cartViewModel.addItem(row)
+            }
         }
     }
 

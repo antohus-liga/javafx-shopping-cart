@@ -13,35 +13,35 @@ import javafx.scene.control.TableView
 import javafx.stage.Modality
 import javafx.stage.Stage
 import javafx.util.Callback
-import napetrico.gen.arturroblox.models.CartItem
+import napetrico.gen.arturroblox.models.CartItemModel
 import napetrico.gen.arturroblox.utils.assets.Assets
 import napetrico.gen.arturroblox.utils.assets.ButtonTableCell
 import napetrico.gen.arturroblox.utils.extensions.toStyledScene
-import napetrico.gen.arturroblox.viewmodels.CartModel
+import napetrico.gen.arturroblox.viewmodels.CartViewModel
 import java.math.BigDecimal
 import java.net.URL
 import java.util.ResourceBundle
 
 class ShoppingCartController: Initializable {
-    @FXML private lateinit var cart: TableView<CartItem>
-    @FXML private lateinit var add: TableColumn<CartItem, Void>
-    @FXML private lateinit var sub: TableColumn<CartItem, Void>
-    @FXML private lateinit var quantity: TableColumn<CartItem, Int>
-    @FXML private lateinit var item: TableColumn<CartItem, String>
-    @FXML private lateinit var total: TableColumn<CartItem, BigDecimal>
-    @FXML private lateinit var remove: TableColumn<CartItem, Void>
+    @FXML private lateinit var cart: TableView<CartItemModel>
+    @FXML private lateinit var add: TableColumn<CartItemModel, Void>
+    @FXML private lateinit var sub: TableColumn<CartItemModel, Void>
+    @FXML private lateinit var quantity: TableColumn<CartItemModel, Int>
+    @FXML private lateinit var item: TableColumn<CartItemModel, String>
+    @FXML private lateinit var total: TableColumn<CartItemModel, BigDecimal>
+    @FXML private lateinit var remove: TableColumn<CartItemModel, Void>
 
     @FXML private lateinit var purchase: Button
     @FXML private lateinit var clear: Button
 
-    lateinit var cartModel: CartModel
+    private lateinit var cartViewModel: CartViewModel
 
     // Anything data-related is supposed to go in this function, since it's where the data comes from
-    fun initData(model: CartModel) {
-        this.cartModel = model
-        cart.items = cartModel.items
+    fun initData(model: CartViewModel) {
+        this.cartViewModel = model
+        cart.items = cartViewModel.items
 
-        purchase.disableProperty().bind(Bindings.isEmpty(cartModel.items))
+        purchase.disableProperty().bind(Bindings.isEmpty(cartViewModel.items))
     }
 
     override fun initialize(url: URL?, rb: ResourceBundle?) {
@@ -65,28 +65,28 @@ class ShoppingCartController: Initializable {
         item.cellValueFactory = Callback { it.value.descriptionProperty }
         total.cellValueFactory = Callback { it.value.totalPriceProperty }
         add.cellFactory = Callback {
-            ButtonTableCell<CartItem>(Assets.PLUS_ICON) { row, e ->
+            ButtonTableCell<CartItemModel>(Assets.PLUS_ICON) { row, e ->
                 val delta = when {
                     e.isShiftDown -> 10
                     e.isControlDown -> 5
                     else -> 1
                 }
-                cartModel.changeQuantity(row, delta)
+                cartViewModel.changeQuantity(row, delta)
             }
         }
         sub.cellFactory = Callback {
-            ButtonTableCell<CartItem>(Assets.MINUS_ICON) { row, e ->
+            ButtonTableCell<CartItemModel>(Assets.MINUS_ICON) { row, e ->
                 val delta = when {
                     e.isShiftDown -> -10
                     e.isControlDown -> -5
                     else -> -1
                 }
-                cartModel.changeQuantity(row, delta)
+                cartViewModel.changeQuantity(row, delta)
             }
         }
         remove.cellFactory = Callback {
-            ButtonTableCell<CartItem>(Assets.TRASH_ICON) { row, _ ->
-                cartModel.removeItem(row)
+            ButtonTableCell<CartItemModel>(Assets.TRASH_ICON) { row, _ ->
+                cartViewModel.removeItem(row)
             }
         }
     }
@@ -118,7 +118,7 @@ class ShoppingCartController: Initializable {
             )
             showAndWait().ifPresent { response ->
                 if (response == ButtonType.OK) {
-                    cartModel.emptyShoppingCart()
+                    cartViewModel.emptyShoppingCart()
                 }
             }
         }
