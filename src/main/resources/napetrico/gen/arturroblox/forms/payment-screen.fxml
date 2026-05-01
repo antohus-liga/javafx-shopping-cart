@@ -44,7 +44,8 @@
             <ComboBox fx:id="paymentMethod" prefWidth="175.0"/>
         </HBox>
         <HBox alignment="CENTER_LEFT" spacing="25.0">
-            <Button fx:id="confirm" mnemonicParsing="false" text="Confirm" styleClass="button, button-success"/>
+            <Button fx:id="confirm" mnemonicParsing="false" text="Confirm" onAction="#onConfirmClick"
+                    styleClass="button, button-success"/>
             <Button fx:id="cancel" mnemonicParsing="false" text="Cancel" onAction="#onCancelClick"
                     styleClass="button, button-secondary"/>
         </HBox>

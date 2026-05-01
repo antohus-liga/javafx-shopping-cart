@@ -19,6 +19,7 @@ import napetrico.gen.arturroblox.utils.assets.Assets
 import napetrico.gen.arturroblox.utils.assets.ButtonTableCell
 import napetrico.gen.arturroblox.utils.extensions.toStyledScene
 import napetrico.gen.arturroblox.viewmodels.CartViewModel
+import napetrico.gen.arturroblox.viewmodels.PaymentViewModel
 import java.math.BigDecimal
 import java.net.URL
 import java.util.ResourceBundle
@@ -36,10 +37,12 @@ class ShoppingCartController: Initializable {
     @FXML private lateinit var clear: Button
 
     private lateinit var cartViewModel: CartViewModel
+    private lateinit var paymentViewModel: PaymentViewModel
 
     // Anything data-related is supposed to go in this function, since it's where the data comes from
-    fun initData(model: CartViewModel) {
+    fun initData(model: CartViewModel, paymentViewModel: PaymentViewModel) {
         this.cartViewModel = model
+        this.paymentViewModel = paymentViewModel
         cart.items = cartViewModel.items
 
         purchase.disableProperty().bind(Bindings.isEmpty(cartViewModel.items))
@@ -65,8 +68,11 @@ class ShoppingCartController: Initializable {
         quantity.cellValueFactory = Callback { it.value.quantityProperty.asObject() }
         item.cellValueFactory = Callback { it.value.descriptionProperty }
         total.cellValueFactory = Callback {
-            SimpleStringProperty(
-                "${it.value.totalPriceProperty.get()} €".replace(".", ",")
+            Bindings.createStringBinding(
+                {
+                    "${it.value.totalPriceProperty.get()} €".replace(".", ",")
+                },
+                it.value.totalPriceProperty
             )
         }
         add.cellFactory = Callback {
@@ -104,7 +110,7 @@ class ShoppingCartController: Initializable {
         val root = loader.load<Parent>()
 
         val controller = loader.getController<PaymentScreenController>()
-        controller.initData(cartViewModel)
+        controller.initData(cartViewModel, paymentViewModel)
 
         val stage = Stage().apply {
             scene = root.toStyledScene()

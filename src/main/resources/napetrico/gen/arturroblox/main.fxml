@@ -8,6 +8,6 @@
         <fx:include fx:id="itemShopping" source="tabs/item-shopping.fxml"/>
     </Tab>
     <Tab closable="false" text="Payments">
-        <fx:include source="tabs/payments-table.fxml"/>
+        <fx:include fx:id="paymentsTable" source="tabs/payments-table.fxml"/>
     </Tab>
 </TabPane>

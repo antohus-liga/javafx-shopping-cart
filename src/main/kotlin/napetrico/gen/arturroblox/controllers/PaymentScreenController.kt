@@ -12,8 +12,12 @@ import javafx.scene.control.TableColumn
 import javafx.scene.control.TableView
 import javafx.stage.Stage
 import javafx.util.Callback
+import napetrico.gen.arturroblox.entities.ShoppingCart
 import napetrico.gen.arturroblox.models.CartItemModel
+import napetrico.gen.arturroblox.models.NewPayment
 import napetrico.gen.arturroblox.viewmodels.CartViewModel
+import napetrico.gen.arturroblox.viewmodels.PaymentViewModel
+import java.math.BigDecimal
 import java.net.URL
 import java.util.ResourceBundle
 
@@ -29,12 +33,28 @@ class PaymentScreenController: Initializable {
     @FXML private lateinit var total: TableColumn<CartItemModel, String>
 
     private lateinit var cartModel: CartViewModel
+    private lateinit var paymentModel: PaymentViewModel
 
-    fun initData(cartModel: CartViewModel) {
+    private lateinit var relatedCart: ShoppingCart
+    private lateinit var cartTotal: BigDecimal
+
+    private val paymentMethods = FXCollections.observableArrayList(
+        "MB WAY",
+        "Multibanco",
+        "Credit / Debit card",
+        "PayPal",
+        "Bank Transfer (SEPA)",
+    )
+
+    fun initData(cartModel: CartViewModel, paymentModel: PaymentViewModel) {
         this.cartModel = cartModel
+        this.paymentModel = paymentModel
         shoppingCartTable.items = cartModel.items
 
-        totalLabel.text = "${cartModel.getCartTotal().toString().replace(".", ",")} €"
+        relatedCart = cartModel.currentCart
+        cartTotal = cartModel.getCartTotal()
+
+        totalLabel.text = "${cartTotal.toString().replace(".", ",")} €"
     }
 
     override fun initialize(url: URL?, rb: ResourceBundle?) {
@@ -55,19 +75,23 @@ class PaymentScreenController: Initializable {
             )
         }
 
-        val paymentMethods = FXCollections.observableArrayList(
-            "MB WAY",
-            "Multibanco",
-            "Credit / Debit card",
-            "PayPal",
-            "Bank Transfer (SEPA)",
-        )
         paymentMethod.value = "Select payment method"
         paymentMethod.items = paymentMethods
     }
 
     @FXML
     fun onCancelClick(actionEvent: ActionEvent) {
+        val stage = (actionEvent.source as Button).scene.window as Stage
+        stage.close()
+    }
+
+    @FXML
+    fun onConfirmClick(actionEvent: ActionEvent) {
+        if (!paymentMethods.contains(paymentMethod.value)) return
+
+        paymentModel.add(NewPayment(paymentMethod.value, cartTotal, relatedCart.id.value))
+        cartModel.createNewShoppingCart()
+
         val stage = (actionEvent.source as Button).scene.window as Stage
         stage.close()
     }

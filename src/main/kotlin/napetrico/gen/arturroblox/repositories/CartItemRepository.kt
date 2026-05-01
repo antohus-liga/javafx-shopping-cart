@@ -12,19 +12,18 @@ import org.jetbrains.exposed.v1.jdbc.insert
 import org.jetbrains.exposed.v1.jdbc.selectAll
 import org.jetbrains.exposed.v1.jdbc.transactions.transaction
 import org.jetbrains.exposed.v1.jdbc.update
-import java.math.BigDecimal
 
 class CartItemRepository {
     fun getAll(): List<CartItemModel> = transaction {
         (CartItems innerJoin Items)
             .selectAll()
-            .map { toDto(it) }
+            .map { it.toDto() }
     }
 
-    fun getItemsByCart(cart: ShoppingCart): List<CartItemModel> = transaction {
+    fun getItemsByCart(cartId: Int): List<CartItemModel> = transaction {
         (CartItems innerJoin Items)
-            .selectAll().where { CartItems.cartId eq cart.id }
-            .map { toDto(it) }
+            .selectAll().where { CartItems.cartId eq cartId }
+            .map { it.toDto() }
     }
 
     fun create(cartId: Int, itemId: Int, quantity: Int) = transaction {
@@ -49,16 +48,10 @@ class CartItemRepository {
         CartItems.deleteWhere { CartItems.cartId eq cartId }
     }
 
-    fun getTotal(cartId: Int): BigDecimal = transaction {
-        (CartItems innerJoin Items)
-            .selectAll().where { CartItems.cartId eq cartId }
-            .sumOf { it[Items.unitPrice] * it[CartItems.quantity].toBigDecimal() }
-    }
-
-    fun toDto(row: ResultRow): CartItemModel = CartItemModel(
-        itemId      = row[CartItems.itemId].value,
-        description = row[Items.description],
-        quantity    = row[CartItems.quantity],
-        unitPrice   = row[Items.unitPrice]
+    fun ResultRow.toDto(): CartItemModel = CartItemModel(
+        itemId      = this[CartItems.itemId].value,
+        description = this[Items.description],
+        quantity    = this[CartItems.quantity],
+        unitPrice   = this[Items.unitPrice]
     )
 }

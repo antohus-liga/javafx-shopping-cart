@@ -1,5 +1,6 @@
 package napetrico.gen.arturroblox.controllers
 
+import javafx.beans.binding.Bindings
 import javafx.beans.property.SimpleStringProperty
 import javafx.event.EventHandler
 import javafx.fxml.FXML
@@ -80,8 +81,11 @@ class ItemListController: Initializable {
 
         description.cellValueFactory = Callback { it.value.descriptionProperty }
         unitPrice.cellValueFactory = Callback {
-            SimpleStringProperty(
-                "${it.value.unitPriceProperty.get()} €".replace(".", ",")
+            Bindings.createStringBinding(
+                {
+                    "${it.value.unitPriceProperty.get()} €".replace(".", ",")
+                },
+                it.value.unitPriceProperty
             )
         }
         add.cellFactory = Callback {

@@ -18,6 +18,7 @@
 
         <TableView fx:id="paymentsTable" HBox.hgrow="ALWAYS" maxWidth="Infinity" maxHeight="Infinity">
             <columns>
+                <TableColumn fx:id="paymentMethod" text="Payment Method"/>
                 <TableColumn fx:id="paymentTotal" text="Total"/>
                 <TableColumn fx:id="date" text="Date"/>
             </columns>

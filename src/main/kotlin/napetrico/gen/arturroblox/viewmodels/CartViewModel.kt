@@ -6,6 +6,7 @@ import napetrico.gen.arturroblox.entities.ShoppingCart
 import napetrico.gen.arturroblox.models.CartItemModel
 import napetrico.gen.arturroblox.models.ItemModel
 import napetrico.gen.arturroblox.models.NewShoppingCart
+import napetrico.gen.arturroblox.models.UpdateShoppingCart
 import napetrico.gen.arturroblox.repositories.CartItemRepository
 import napetrico.gen.arturroblox.repositories.ShoppingCartRepository
 
@@ -20,11 +21,13 @@ class CartViewModel {
 
     init {
         // The items of the uncompleted cart are loaded to be shown on the item-shopping screen
-        items.addAll(cartItemRepository.getItemsByCart(currentCart))
+        items.addAll(cartItemRepository.getItemsByCart(currentCart.id.value))
     }
 
     fun createNewShoppingCart() {
+        shoppingCartRepository.update(currentCart, UpdateShoppingCart(true))
         currentCart = shoppingCartRepository.create(NewShoppingCart())
+        items.clear()
     }
 
     fun addItem(item: ItemModel) {
@@ -53,7 +56,7 @@ class CartViewModel {
     fun removeItem(item: ItemModel) {
         val cartItem = items.find { it.itemId == item.id } ?: return
         items.remove(cartItem)
-        cartItemRepository.remove(currentCart.id.value, cartItem.itemId)
+        cartItemRepository.remove(currentCart.id.value, item.id)
     }
 
     fun changeQuantity(cartItem: CartItemModel, delta: Int) {

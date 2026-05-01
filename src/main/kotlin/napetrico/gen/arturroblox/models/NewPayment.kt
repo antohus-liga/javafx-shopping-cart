@@ -1,11 +1,11 @@
 package napetrico.gen.arturroblox.models
 
-import napetrico.gen.arturroblox.entities.ShoppingCart
 import java.math.BigDecimal
 import java.time.LocalDate
 
 data class NewPayment(
+    val paymentMethod: String,
     val total: BigDecimal,
-    val paymentDate: LocalDate,
-    val relatedCart: ShoppingCart
+    val relatedCart: Int,
+    val paymentDate: LocalDate = LocalDate.now(),
 )

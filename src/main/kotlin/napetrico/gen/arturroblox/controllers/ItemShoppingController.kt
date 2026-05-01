@@ -5,18 +5,22 @@ import javafx.fxml.Initializable
 import javafx.scene.layout.AnchorPane
 import napetrico.gen.arturroblox.viewmodels.CartViewModel
 import napetrico.gen.arturroblox.viewmodels.ItemViewModel
+import napetrico.gen.arturroblox.viewmodels.PaymentViewModel
 import java.net.URL
 import java.util.ResourceBundle
 
-class ItemShoppingController : Initializable {
+class ItemShoppingController {
     @FXML lateinit var shoppingCartController: ShoppingCartController
     @FXML lateinit var itemListController: ItemListController
 
     private val cartViewModel = CartViewModel()
     private val itemViewModel = ItemViewModel()
+    private lateinit var paymentViewModel: PaymentViewModel
 
-    override fun initialize(p0: URL?, p1: ResourceBundle?) {
-        shoppingCartController.initData(cartViewModel)
+    fun initData(paymentViewModel: PaymentViewModel) {
+        this.paymentViewModel = paymentViewModel
+
+        shoppingCartController.initData(cartViewModel, paymentViewModel)
         itemListController.initData(cartViewModel, itemViewModel)
     }
 }
