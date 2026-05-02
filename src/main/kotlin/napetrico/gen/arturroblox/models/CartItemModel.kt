@@ -7,7 +7,7 @@ import javafx.beans.property.SimpleStringProperty
 import java.math.BigDecimal
 
 class CartItemModel(
-    val itemId: Int,
+    val itemId: Int?,
     description: String,
     quantity: Int,
     unitPrice: BigDecimal

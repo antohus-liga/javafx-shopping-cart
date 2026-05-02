@@ -40,7 +40,7 @@ class CartViewModel {
             item.unitPriceProperty.value
         )
         items.add(cartItem)
-        cartItemRepository.create(currentCart.id.value, item.id, 1)
+        cartItemRepository.create(currentCart.id.value, item, 1)
     }
 
     fun emptyShoppingCart() {
@@ -50,7 +50,7 @@ class CartViewModel {
 
     fun removeItem(cartItem: CartItemModel) {
         items.remove(cartItem)
-        cartItemRepository.remove(currentCart.id.value, cartItem.itemId)
+        cartItemRepository.remove(currentCart.id.value, cartItem.itemId ?: return)
     }
 
     fun removeItem(item: ItemModel) {
@@ -64,7 +64,7 @@ class CartViewModel {
         val newQuantity = (current + delta).coerceAtLeast(1)
 
         cartItem.quantityProperty.set(newQuantity)
-        cartItemRepository.updateQuantity(currentCart.id.value, cartItem.itemId, newQuantity)
+        cartItemRepository.updateQuantity(currentCart.id.value, cartItem.itemId ?: return, newQuantity)
     }
 
     fun refreshItem(item: ItemModel) {

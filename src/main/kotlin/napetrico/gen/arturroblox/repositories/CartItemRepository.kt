@@ -4,6 +4,7 @@ import napetrico.gen.arturroblox.dsl.CartItems
 import napetrico.gen.arturroblox.dsl.Items
 import napetrico.gen.arturroblox.entities.ShoppingCart
 import napetrico.gen.arturroblox.models.CartItemModel
+import napetrico.gen.arturroblox.models.ItemModel
 import org.jetbrains.exposed.v1.core.ResultRow
 import org.jetbrains.exposed.v1.core.and
 import org.jetbrains.exposed.v1.core.eq
@@ -14,22 +15,16 @@ import org.jetbrains.exposed.v1.jdbc.transactions.transaction
 import org.jetbrains.exposed.v1.jdbc.update
 
 class CartItemRepository {
-    fun getAll(): List<CartItemModel> = transaction {
-        (CartItems innerJoin Items)
-            .selectAll()
-            .map { it.toDto() }
-    }
-
     fun getItemsByCart(cartId: Int): List<CartItemModel> = transaction {
-        (CartItems innerJoin Items)
-            .selectAll().where { CartItems.cartId eq cartId }
-            .map { it.toDto() }
+        CartItems.selectAll().where { CartItems.cartId eq cartId }.map { it.toDto() }
     }
 
-    fun create(cartId: Int, itemId: Int, quantity: Int) = transaction {
+    fun create(cartId: Int, item: ItemModel, quantity: Int) = transaction {
         CartItems.insert {
             it[CartItems.cartId] = cartId
-            it[CartItems.itemId] = itemId
+            it[CartItems.itemId] = item.id
+            it[CartItems.description] = item.descriptionProperty.get()
+            it[CartItems.unitPrice] = item.unitPriceProperty.get()
             it[CartItems.quantity] = quantity
         }
     }
@@ -49,9 +44,9 @@ class CartItemRepository {
     }
 
     fun ResultRow.toDto(): CartItemModel = CartItemModel(
-        itemId      = this[CartItems.itemId].value,
-        description = this[Items.description],
+        itemId      = this[CartItems.itemId]?.value,
+        description = this[CartItems.description],
         quantity    = this[CartItems.quantity],
-        unitPrice   = this[Items.unitPrice]
+        unitPrice   = this[CartItems.unitPrice]
     )
 }
