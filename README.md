@@ -49,6 +49,7 @@ This project implements the **MVVM (Model-View-ViewModel)** architecture to sepa
 
 1. **Add Products**:
    - Navigate to the "Shopping" tab.
+   - Right-click on a product to edit it.
    - Use the "Create Product" form to add new products, specifying their name and unit price.
 
 2. **Manage Shopping Cart**:
