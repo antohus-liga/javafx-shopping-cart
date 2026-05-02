@@ -17,10 +17,6 @@ class ItemRepository {
         }.toList()
     }
 
-    fun findById(id: Int): ItemModel? = transaction {
-        Item.findById(id)?.toDto()
-    }
-
     fun create(item: NewItem): ItemModel = transaction {
         Item.new {
             description = item.description

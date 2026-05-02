@@ -1,13 +1,9 @@
 package napetrico.gen.arturroblox.controllers
 
 import javafx.fxml.FXML
-import javafx.fxml.Initializable
-import javafx.scene.layout.AnchorPane
 import napetrico.gen.arturroblox.viewmodels.CartViewModel
 import napetrico.gen.arturroblox.viewmodels.ItemViewModel
 import napetrico.gen.arturroblox.viewmodels.PaymentViewModel
-import java.net.URL
-import java.util.ResourceBundle
 
 class ItemShoppingController {
     @FXML lateinit var shoppingCartController: ShoppingCartController

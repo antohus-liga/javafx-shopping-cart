@@ -1,7 +1,6 @@
 package napetrico.gen.arturroblox.controllers
 
 import javafx.beans.binding.Bindings
-import javafx.beans.property.SimpleStringProperty
 import javafx.event.EventHandler
 import javafx.fxml.FXML
 import javafx.fxml.FXMLLoader
@@ -21,7 +20,6 @@ import napetrico.gen.arturroblox.utils.assets.ButtonTableCell
 import napetrico.gen.arturroblox.utils.extensions.toStyledScene
 import napetrico.gen.arturroblox.viewmodels.CartViewModel
 import napetrico.gen.arturroblox.viewmodels.ItemViewModel
-import java.math.BigDecimal
 import java.net.URL
 import java.util.ResourceBundle
 
@@ -89,12 +87,12 @@ class ItemListController: Initializable {
             )
         }
         add.cellFactory = Callback {
-            ButtonTableCell<ItemModel>(Assets.CART_ICON) { row, e ->
+            ButtonTableCell<ItemModel>(Assets.CART_ICON) { row, _ ->
                 cartViewModel.addItem(row)
             }
         }
         remove.cellFactory = Callback {
-            ButtonTableCell<ItemModel>(Assets.TRASH_ICON) { row, e ->
+            ButtonTableCell<ItemModel>(Assets.TRASH_ICON) { row, _ ->
                 itemViewModel.remove(row)
                 cartViewModel.removeItem(row)
             }

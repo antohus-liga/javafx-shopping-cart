@@ -1,8 +1,6 @@
 package napetrico.gen.arturroblox.repositories
 
 import napetrico.gen.arturroblox.dsl.CartItems
-import napetrico.gen.arturroblox.dsl.Items
-import napetrico.gen.arturroblox.entities.ShoppingCart
 import napetrico.gen.arturroblox.models.CartItemModel
 import napetrico.gen.arturroblox.models.ItemModel
 import org.jetbrains.exposed.v1.core.ResultRow

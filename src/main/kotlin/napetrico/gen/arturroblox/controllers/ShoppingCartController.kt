@@ -1,7 +1,6 @@
 package napetrico.gen.arturroblox.controllers
 
 import javafx.beans.binding.Bindings
-import javafx.beans.property.SimpleStringProperty
 import javafx.fxml.FXML
 import javafx.fxml.FXMLLoader
 import javafx.fxml.Initializable
@@ -21,7 +20,6 @@ import napetrico.gen.arturroblox.utils.assets.ButtonTableCell
 import napetrico.gen.arturroblox.utils.extensions.toStyledScene
 import napetrico.gen.arturroblox.viewmodels.CartViewModel
 import napetrico.gen.arturroblox.viewmodels.PaymentViewModel
-import java.math.BigDecimal
 import java.net.URL
 import java.util.ResourceBundle
 

@@ -8,14 +8,6 @@ import org.jetbrains.exposed.v1.core.eq
 import org.jetbrains.exposed.v1.jdbc.transactions.transaction
 
 class ShoppingCartRepository {
-    fun getAll() : List<ShoppingCart> = transaction {
-        ShoppingCart.all().toList()
-    }
-
-    fun findById(id: Int): ShoppingCart? = transaction {
-        ShoppingCart.findById(id)
-    }
-
     fun findUncompleted(): ShoppingCart? = transaction {
         ShoppingCart.find { ShoppingCarts.isComplete eq false }.singleOrNull()
     }
