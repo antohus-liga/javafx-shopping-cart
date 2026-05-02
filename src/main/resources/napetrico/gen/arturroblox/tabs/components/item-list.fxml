@@ -11,17 +11,17 @@
     <TableView fx:id="itemsTable" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0"
                AnchorPane.topAnchor="0">
         <columns>
-            <TableColumn fx:id="description" text="Description"/>
-            <TableColumn fx:id="unitPrice" text="Unit Price"/>
             <TableColumn fx:id="remove" text="✕"/>
-            <TableColumn fx:id="add" text="Add"/>
+            <TableColumn fx:id="description" text="Descrição"/>
+            <TableColumn fx:id="unitPrice" text="Preço Unitário"/>
+            <TableColumn fx:id="add" text="+"/>
         </columns>
     </TableView>
     <HBox spacing="30.0"
           AnchorPane.bottomAnchor="0"
           AnchorPane.leftAnchor="0"
           AnchorPane.rightAnchor="0">
-        <Button fx:id="createItem" text="Create Item" onAction="#onCreateItemClick" styleClass="button, button-success">
+        <Button fx:id="createItem" text="Criar artigo" onAction="#onCreateItemClick" styleClass="button, button-success">
             <font>
                 <Font size="14.0"/>
             </font>

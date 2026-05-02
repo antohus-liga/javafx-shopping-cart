@@ -111,7 +111,7 @@ class ItemListController: Initializable {
         Stage().apply {
             scene = root.toStyledScene()
             initModality(Modality.APPLICATION_MODAL)
-            title = "Edit Item ${item.descriptionProperty.get()}"
+            title = "Editar artigo ${item.descriptionProperty.get()}"
             show()
         }
     }
@@ -128,7 +128,7 @@ class ItemListController: Initializable {
             scene = root.toStyledScene()
             initModality(Modality.APPLICATION_MODAL)
             initOwner(createItem.scene.window)
-            title = "Create Item"
+            title = "Criar artigo"
         }
         stage.show()
     }

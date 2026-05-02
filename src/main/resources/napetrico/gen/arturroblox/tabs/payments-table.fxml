@@ -6,30 +6,49 @@
 <?import javafx.scene.layout.HBox?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 <AnchorPane xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="napetrico.gen.arturroblox.controllers.PaymentsTableController"
             maxWidth="Infinity" maxHeight="Infinity">
     <padding>
         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
     </padding>
-    <HBox spacing="8.0"
+    <HBox fx:id="parentBox" spacing="8.0"
           AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0"
           AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
 
-        <TableView fx:id="paymentsTable" HBox.hgrow="ALWAYS" maxWidth="Infinity" maxHeight="Infinity">
-            <columns>
-                <TableColumn fx:id="paymentMethod" text="Payment Method"/>
-                <TableColumn fx:id="paymentTotal" text="Total"/>
-                <TableColumn fx:id="date" text="Date"/>
-            </columns>
-        </TableView>
+        <VBox fx:id="leftBox">
+            <Label>
+                Pagamentos
+                <font>
+                    <Font size="20"/>
+                </font>
+            </Label>
+            <TableView fx:id="paymentsTable" VBox.vgrow="ALWAYS" maxWidth="Infinity" maxHeight="Infinity">
+                <columns>
+                    <TableColumn fx:id="paymentMethod" text="Método de Pagamento"/>
+                    <TableColumn fx:id="paymentTotal" text="Total"/>
+                    <TableColumn fx:id="date" text="Data"/>
+                </columns>
+            </TableView>
+        </VBox>
 
-        <TableView fx:id="paymentDetailsTable" HBox.hgrow="ALWAYS" maxWidth="Infinity" maxHeight="Infinity">
-            <columns>
-                <TableColumn fx:id="quantity" text="Quantity"/>
-                <TableColumn fx:id="item" text="Item"/>
-                <TableColumn fx:id="itemTotal" text="Total"/>
-            </columns>
-        </TableView>
+        <VBox fx:id="rightBox">
+            <Label>
+                Detalhes do pagamento selecionado
+                <font>
+                    <Font size="20"/>
+                </font>
+            </Label>
+            <TableView fx:id="paymentDetailsTable" VBox.vgrow="ALWAYS" maxWidth="Infinity" maxHeight="Infinity">
+                <columns>
+                    <TableColumn fx:id="quantity" text="Quantidade"/>
+                    <TableColumn fx:id="item" text="Artigo"/>
+                    <TableColumn fx:id="itemTotal" text="Total"/>
+                </columns>
+            </TableView>
+        </VBox>
     </HBox>
 </AnchorPane>

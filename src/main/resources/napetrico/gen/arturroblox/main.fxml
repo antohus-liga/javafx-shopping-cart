@@ -4,10 +4,10 @@
 
 <TabPane maxHeight="Infinity" maxWidth="Infinity" xmlns:fx="http://javafx.com/fxml/1"
          xmlns="http://javafx.com/javafx/17.0.12" fx:controller="napetrico.gen.arturroblox.controllers.MainController">
-    <Tab closable="false" text="Shopping">
+    <Tab closable="false" text="Compras">
         <fx:include fx:id="itemShopping" source="tabs/item-shopping.fxml"/>
     </Tab>
-    <Tab closable="false" text="Payments">
+    <Tab closable="false" text="Pagamentos">
         <fx:include fx:id="paymentsTable" source="tabs/payments-table.fxml"/>
     </Tab>
 </TabPane>

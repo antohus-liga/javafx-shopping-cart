@@ -15,8 +15,8 @@
     <TableView fx:id="shoppingCartTable" AnchorPane.bottomAnchor="138.0" AnchorPane.leftAnchor="0"
                AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
         <columns>
-            <TableColumn fx:id="item" text="Item"/>
-            <TableColumn fx:id="quantity" text="Quantity"/>
+            <TableColumn fx:id="item" text="Artigo"/>
+            <TableColumn fx:id="quantity" text="Quantidade"/>
             <TableColumn fx:id="total" text="Total"/>
         </columns>
     </TableView>
@@ -36,7 +36,7 @@
             </Label>
         </HBox>
         <HBox alignment="CENTER_LEFT" spacing="25.0">
-            <Label text="Payment Method">
+            <Label text="Método de pagamento">
                 <font>
                     <Font size="14.0"/>
                 </font>
@@ -44,9 +44,9 @@
             <ComboBox fx:id="paymentMethod" prefWidth="175.0"/>
         </HBox>
         <HBox alignment="CENTER_LEFT" spacing="25.0">
-            <Button fx:id="confirm" mnemonicParsing="false" text="Confirm" onAction="#onConfirmClick"
+            <Button fx:id="confirm" mnemonicParsing="false" text="Confirmar" onAction="#onConfirmClick"
                     styleClass="button, button-success"/>
-            <Button fx:id="cancel" mnemonicParsing="false" text="Cancel" onAction="#onCancelClick"
+            <Button fx:id="cancel" mnemonicParsing="false" text="Cancelar" onAction="#onCancelClick"
                     styleClass="button, button-secondary"/>
         </HBox>
     </VBox>

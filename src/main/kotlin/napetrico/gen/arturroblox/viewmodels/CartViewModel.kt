@@ -76,8 +76,9 @@ class CartViewModel {
 
     fun refreshItem(item: ItemModel) {
         items.find { it.itemId == item.id }?.let {
-            it.descriptionProperty.set(item.descriptionProperty.value)
+            it.descriptionProperty.set(item.descriptionProperty.get())
             it.unitPriceProperty.set(item.unitPriceProperty.get())
+            cartItemRepository.refreshItemSnapshot(currentCart.id.value, item)
         }
     }
 

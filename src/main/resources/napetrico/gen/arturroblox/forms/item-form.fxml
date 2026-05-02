@@ -13,12 +13,12 @@
             <padding>
                 <Insets left="10.0" right="10.0" top="10.0"/>
             </padding>
-            <Label text="Description">
+            <Label text="Descrição">
                 <font>
                     <Font size="18.0"/>
                 </font>
             </Label>
-            <TextField fx:id="description" promptText="Enter a description"/>
+            <TextField fx:id="description" promptText="Insira uma descrição"/>
         </HBox>
         <Label fx:id="descriptionError" prefHeight="17.0" prefWidth="280.0" styleClass="error-label"/>
         <padding>
@@ -30,13 +30,13 @@
                 <padding>
                     <Insets left="10.0" right="10.0" top="10.0"/>
                 </padding>
-                <Label text="Unit Price">
+                <Label text="Preço Unitário">
                     <font>
                         <Font size="18.0"/>
                     </font>
                 </Label>
                 <TextField fx:id="unitPrice" prefHeight="25.0" prefWidth="159.0"
-                           promptText="Enter a numeric unit price"/>
+                           promptText="Insira um número válido"/>
             </HBox>
             <Label fx:id="unitPriceError" prefHeight="17.0" prefWidth="280.0" styleClass="error-label"/>
         <padding>
@@ -47,12 +47,12 @@
         <padding>
             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
         </padding>
-        <Button mnemonicParsing="false" onAction="#onCancelClick" styleClass="button, button-secondary" text="Cancel">
+        <Button mnemonicParsing="false" onAction="#onCancelClick" styleClass="button, button-secondary" text="Cancelar">
             <font>
                 <Font size="14.0"/>
             </font>
         </Button>
-        <Button mnemonicParsing="false" onAction="#onConfirmClick" styleClass="button, button-success" text="Confirm">
+        <Button mnemonicParsing="false" onAction="#onConfirmClick" styleClass="button, button-success" text="Confirmar">
             <font>
                 <Font size="14.0"/>
             </font>

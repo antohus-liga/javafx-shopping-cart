@@ -41,9 +41,9 @@ class PaymentScreenController: Initializable {
     private val paymentMethods = FXCollections.observableArrayList(
         "MB WAY",
         "Multibanco",
-        "Credit / Debit card",
+        "Cartão de crédito / débito",
         "PayPal",
-        "Bank Transfer (SEPA)",
+        "Transferência bancária (SEPA)",
     )
 
     fun initData(cartModel: CartViewModel, paymentModel: PaymentViewModel) {
@@ -75,7 +75,7 @@ class PaymentScreenController: Initializable {
             )
         }
 
-        paymentMethod.value = "Select payment method"
+        paymentMethod.value = "Escolha um método de pagamento"
         paymentMethod.items = paymentMethods
     }
 

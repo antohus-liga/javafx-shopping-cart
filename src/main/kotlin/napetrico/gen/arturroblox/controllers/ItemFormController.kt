@@ -39,7 +39,7 @@ class ItemFormController {
         this.editingItem = item
 
         description.text = item.descriptionProperty.get()
-        unitPrice.text = item.unitPriceProperty.get().toString()
+        unitPrice.text = item.unitPriceProperty.get().toString().replace(".", ",")
     }
 
     @FXML
@@ -54,7 +54,7 @@ class ItemFormController {
         unitPriceError.text = ""
 
         val itemDescription = description.text.ifBlank {
-            descriptionError.text = "Description cannot be blank."
+            descriptionError.text = "A descrição não pode estar vazia."
             return
         }
         val unitPrice = try {
@@ -63,7 +63,7 @@ class ItemFormController {
 
             parsed.setScale(2)
         } catch (_: NumberFormatException) {
-            unitPriceError.text = "Invalid decimal. Correct format example: 12.97"
+            unitPriceError.text = "Valor inválido. Exemplo de formato correto: 12.97"
             return
         }
 

@@ -5,8 +5,11 @@ import javafx.beans.property.SimpleObjectProperty
 import javafx.beans.property.SimpleStringProperty
 import javafx.fxml.FXML
 import javafx.fxml.Initializable
+import javafx.scene.control.Label
 import javafx.scene.control.TableColumn
 import javafx.scene.control.TableView
+import javafx.scene.layout.HBox
+import javafx.scene.layout.VBox
 import javafx.util.Callback
 import napetrico.gen.arturroblox.models.CartItemModel
 import napetrico.gen.arturroblox.models.PaymentModel
@@ -26,6 +29,10 @@ class PaymentsTableController: Initializable {
     @FXML private lateinit var item: TableColumn<CartItemModel, String>
     @FXML private lateinit var itemTotal: TableColumn<CartItemModel, String>
 
+    @FXML private lateinit var parentBox: HBox
+    @FXML private lateinit var leftBox: VBox
+    @FXML private lateinit var rightBox: VBox
+
     private lateinit var paymentViewModel: PaymentViewModel
 
     fun initData(paymentViewModel: PaymentViewModel) {
@@ -35,13 +42,16 @@ class PaymentsTableController: Initializable {
     }
 
     override fun initialize(url: URL?, rb: ResourceBundle?) {
+        leftBox.prefWidthProperty().bind(parentBox.widthProperty().multiply(0.53))
+        rightBox.prefWidthProperty().bind(parentBox.widthProperty().multiply(0.47))
+
         paymentsTable.columnResizePolicy = TableView.CONSTRAINED_RESIZE_POLICY_ALL_COLUMNS
         paymentsTable.widthProperty().addListener { _, _, newWidth ->
             val w = newWidth.toDouble()
 
-            paymentTotal.maxWidth = w * 0.30
-            date.maxWidth = w * 0.30
-            paymentMethod.maxWidth = w * 0.40
+            paymentTotal.maxWidth = w * 0.23
+            date.maxWidth = w * 0.23
+            paymentMethod.maxWidth = w * 0.54
         }
 
         paymentMethod.cellValueFactory = Callback { SimpleStringProperty(it.value.paymentMethod) }
@@ -62,8 +72,8 @@ class PaymentsTableController: Initializable {
             val w = newWidth.toDouble()
 
             quantity.maxWidth = w * 0.25
-            item.maxWidth = w * 0.50
-            itemTotal.maxWidth = w * 0.25
+            item.maxWidth = w * 0.55
+            itemTotal.maxWidth = w * 0.20
         }
 
         quantity.cellValueFactory = Callback { it.value.quantityProperty.asObject() }
@@ -77,6 +87,10 @@ class PaymentsTableController: Initializable {
 
         paymentsTable.selectionModel.selectedItemProperty().addListener { _, _, payment ->
             paymentViewModel.changeCurrentPayment(payment)
+        }
+
+        paymentDetailsTable.placeholder = Label("Clique num pagamento para ver os detalhes.").apply {
+            style = "-fx-text-fill: gray; -fx-font-size: 14;"
         }
     }
 }

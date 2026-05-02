@@ -35,6 +35,13 @@ class CartItemRepository {
         }
     }
 
+    fun refreshItemSnapshot(cartId: Int, item: ItemModel) = transaction {
+        CartItems.update({ (CartItems.cartId eq cartId) and (CartItems.itemId eq item.id) }) {
+            it[CartItems.description] = item.descriptionProperty.get()
+            it[CartItems.unitPrice] = item.unitPriceProperty.get()
+        }
+    }
+
     fun remove(cartId: Int, itemId: Int) = transaction {
         CartItems.deleteWhere { (CartItems.cartId eq cartId) and (CartItems.itemId eq itemId) }
     }

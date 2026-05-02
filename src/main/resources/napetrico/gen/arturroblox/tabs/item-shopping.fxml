@@ -19,7 +19,7 @@
           AnchorPane.rightAnchor="10.0">
         <VBox maxWidth="Infinity" maxHeight="Infinity" HBox.hgrow="ALWAYS">
             <Label>
-                Items
+                Artigos
                 <font>
                     <Font size="20"/>
                 </font>
@@ -29,7 +29,7 @@
 
         <VBox maxWidth="Infinity" maxHeight="Infinity" HBox.hgrow="ALWAYS">
             <Label>
-                Cart
+                Carrinho
                 <font>
                     <Font size="20"/>
                 </font>

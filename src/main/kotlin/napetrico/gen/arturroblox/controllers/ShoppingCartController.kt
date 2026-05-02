@@ -9,6 +9,7 @@ import javafx.scene.Parent
 import javafx.scene.control.Alert
 import javafx.scene.control.Button
 import javafx.scene.control.ButtonType
+import javafx.scene.control.Label
 import javafx.scene.control.TableColumn
 import javafx.scene.control.TableView
 import javafx.stage.Modality
@@ -46,6 +47,7 @@ class ShoppingCartController: Initializable {
         cart.items = cartViewModel.items
 
         purchase.disableProperty().bind(Bindings.isEmpty(cartViewModel.items))
+        clear.disableProperty().bind(Bindings.isEmpty(cartViewModel.items))
     }
 
     override fun initialize(url: URL?, rb: ResourceBundle?) {
@@ -60,8 +62,8 @@ class ShoppingCartController: Initializable {
 
             // Buttons have fixed size because they can't get neither bigger nor smaller
             tableButtons.forEach { it.maxWidth = buttonColumnWidth }
-            quantity.maxWidth = w * 0.20
-            item.maxWidth = w * 0.60
+            quantity.maxWidth = w * 0.25
+            item.maxWidth = w * 0.55
             total.maxWidth = w * 0.20
         }
 
@@ -100,6 +102,10 @@ class ShoppingCartController: Initializable {
                 cartViewModel.removeItem(row)
             }
         }
+
+        cart.placeholder = Label("Adicione um produto ao carrinho para conseguir efetuar uma compra.").apply {
+            style = "-fx-text-fill: gray; -fx-font-size: 14;"
+        }
     }
 
     @FXML
@@ -116,7 +122,7 @@ class ShoppingCartController: Initializable {
             scene = root.toStyledScene()
             initModality(Modality.APPLICATION_MODAL)
             initOwner(purchase.scene.window)
-            title = "Payment"
+            title = "Pagamento"
         }
         stage.show()
     }
@@ -124,9 +130,9 @@ class ShoppingCartController: Initializable {
     @FXML
     fun onClearClick() {
         Alert(Alert.AlertType.WARNING).apply {
-            title = "Clear Cart"
-            headerText = "Are you sure you want to clear this cart?"
-            contentText = "If you confirm this action, the cart will be emptied."
+            title = "Limpar o carrinho"
+            headerText = "Tem a certeza que quer limpar o carrinho?"
+            contentText = "Se confirmar, não conseguirá cancelar este processo."
             dialogPane.stylesheets.add(
                 javaClass.getResource("/napetrico/gen/arturroblox/styles/styles.css")!!.toExternalForm()
             )
