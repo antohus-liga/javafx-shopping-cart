@@ -50,7 +50,10 @@ class CartViewModel {
 
     fun removeItem(cartItem: CartItemModel) {
         items.remove(cartItem)
-        cartItemRepository.remove(currentCart.id.value, cartItem.itemId ?: return)
+        cartItemRepository.remove(
+            currentCart.id.value,
+            cartItem.itemId ?: throw Error("ItemId null while attempting to remove cartItem.")
+        )
     }
 
     fun removeItem(item: ItemModel) {
@@ -64,7 +67,11 @@ class CartViewModel {
         val newQuantity = (current + delta).coerceAtLeast(1)
 
         cartItem.quantityProperty.set(newQuantity)
-        cartItemRepository.updateQuantity(currentCart.id.value, cartItem.itemId ?: return, newQuantity)
+        cartItemRepository.updateQuantity(
+            currentCart.id.value,
+            cartItem.itemId ?: throw Error("ItemId null while attempting to update quantity"),
+            newQuantity
+        )
     }
 
     fun refreshItem(item: ItemModel) {
