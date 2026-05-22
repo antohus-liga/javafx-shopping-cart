@@ -1,6 +1,7 @@
 package napetrico.gen.arturroblox.repositories
 
 import napetrico.gen.arturroblox.dsl.Items
+import napetrico.gen.arturroblox.entities.Category
 import napetrico.gen.arturroblox.entities.Item
 import napetrico.gen.arturroblox.models.ItemModel
 import napetrico.gen.arturroblox.models.NewItem
@@ -9,6 +10,7 @@ import org.jetbrains.exposed.v1.core.eq
 import org.jetbrains.exposed.v1.jdbc.deleteWhere
 import org.jetbrains.exposed.v1.jdbc.transactions.transaction
 import org.jetbrains.exposed.v1.jdbc.update
+import kotlin.let
 
 class ItemRepository {
     fun getAll(): List<ItemModel> = transaction {
@@ -21,6 +23,7 @@ class ItemRepository {
         Item.new {
             description = item.description
             unitPrice   = item.unitPrice
+            category    = item.categoryId?.let(Category::findById)
         }.toDto()
     }
 
@@ -28,6 +31,7 @@ class ItemRepository {
         Items.update( { Items.id eq item.id }) {
             it[Items.description] = updateItem.description
             it[Items.unitPrice] = updateItem.unitPrice
+            it[Items.category] = updateItem.categoryId
         }
     }
 
@@ -35,5 +39,5 @@ class ItemRepository {
         Items.deleteWhere { Items.id eq item.id }
     }
 
-    fun Item.toDto() = ItemModel(id.value, description, unitPrice)
+    fun Item.toDto() = ItemModel(id.value, description, unitPrice, category?.toDto())
 }
