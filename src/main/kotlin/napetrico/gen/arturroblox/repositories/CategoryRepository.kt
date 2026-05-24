@@ -28,7 +28,7 @@ class CategoryRepository {
     fun update(category: CategoryModel, updateCategory: UpdateCategory) = transaction {
         Categories.update( { Categories.id eq category.id }) {
             it[Categories.description] = updateCategory.description
-            it[Categories.color] = updateCategory.color?.toHex()
+            it[Categories.color] = updateCategory.color.toHex()
         }
     }
 

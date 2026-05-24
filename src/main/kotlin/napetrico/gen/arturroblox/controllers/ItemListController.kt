@@ -19,6 +19,7 @@ import napetrico.gen.arturroblox.utils.assets.Assets
 import napetrico.gen.arturroblox.utils.assets.ButtonTableCell
 import napetrico.gen.arturroblox.utils.extensions.toStyledScene
 import napetrico.gen.arturroblox.viewmodels.CartViewModel
+import napetrico.gen.arturroblox.viewmodels.CategoryViewModel
 import napetrico.gen.arturroblox.viewmodels.ItemViewModel
 import java.net.URL
 import java.util.ResourceBundle
@@ -34,10 +35,12 @@ class ItemListController: Initializable {
 
     private lateinit var cartViewModel: CartViewModel
     private lateinit var itemViewModel: ItemViewModel
+    private lateinit var categoryViewModel: CategoryViewModel
 
-    fun initData(cartViewModel: CartViewModel, itemViewModel: ItemViewModel) {
+    fun initData(cartViewModel: CartViewModel, itemViewModel: ItemViewModel, categoryViewModel: CategoryViewModel) {
         this.cartViewModel = cartViewModel
         this.itemViewModel = itemViewModel
+        this.categoryViewModel = categoryViewModel
 
         itemsTable.items = itemViewModel.items
     }
@@ -104,7 +107,7 @@ class ItemListController: Initializable {
         val root = loader.load<Parent>()
 
         val controller = loader.getController<ItemFormController>()
-        controller.initEdit(itemViewModel, cartViewModel, item)
+        controller.initEdit(itemViewModel, cartViewModel, categoryViewModel, item)
 
         Stage().apply {
             scene = root.toStyledScene()
@@ -120,7 +123,7 @@ class ItemListController: Initializable {
         val root = loader.load<Parent>()
 
         val controller = loader.getController<ItemFormController>()
-        controller.initCreate(itemViewModel)
+        controller.initCreate(itemViewModel, categoryViewModel)
 
         val stage = Stage().apply {
             scene = root.toStyledScene()
