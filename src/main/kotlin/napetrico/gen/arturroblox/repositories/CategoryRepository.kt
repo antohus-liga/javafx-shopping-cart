@@ -2,7 +2,6 @@ package napetrico.gen.arturroblox.repositories
 
 import javafx.scene.paint.Color
 import napetrico.gen.arturroblox.dsl.Categories
-import napetrico.gen.arturroblox.dsl.Items
 import napetrico.gen.arturroblox.entities.Category
 import napetrico.gen.arturroblox.models.CategoryModel
 import napetrico.gen.arturroblox.models.NewCategory
@@ -29,7 +28,7 @@ class CategoryRepository {
     fun update(category: CategoryModel, updateCategory: UpdateCategory) = transaction {
         Categories.update( { Categories.id eq category.id }) {
             it[Categories.description] = updateCategory.description
-            it[Categories.color] = updateCategory.color.toHex()
+            it[Categories.color] = updateCategory.color?.toHex()
         }
     }
 
