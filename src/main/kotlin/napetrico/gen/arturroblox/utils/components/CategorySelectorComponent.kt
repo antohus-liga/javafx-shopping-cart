@@ -16,7 +16,8 @@ class CategorySelectorComponent(categoryViewModel: CategoryViewModel) : VBox() {
     private val addButton = Button()
     private val confirmButton = Button("Confirmar")
 
-    private var selectedCategory: CategoryModel? = null
+    var selectedCategory: CategoryModel? = null
+        private set
 
     init {
         spacing = 10.0
