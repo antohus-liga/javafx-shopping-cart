@@ -1,21 +1,22 @@
 package napetrico.gen.arturroblox.utils.components
 
+import javafx.scene.Scene
 import javafx.scene.control.*
 import javafx.scene.input.MouseButton
 import javafx.scene.layout.Priority
 import javafx.scene.layout.VBox
+import javafx.stage.Modality
+import javafx.stage.Stage
 import napetrico.gen.arturroblox.models.CategoryModel
 import napetrico.gen.arturroblox.viewmodels.CategoryViewModel
 
 class CategorySelectorComponent(categoryViewModel: CategoryViewModel) : VBox() {
-    val listView = ListView(categoryViewModel.categories)
+    private val listView = ListView(categoryViewModel.categories)
 
-    val addButton = Button()
+    private val addButton = Button()
+    private val confirmButton = Button("Confirmar")
 
-    val confirmButton = Button("Confirmar")
-
-    var selectedCategory: CategoryModel? = null
-        private set
+    private var selectedCategory: CategoryModel? = null
 
     init {
         spacing = 10.0
@@ -51,8 +52,32 @@ class CategorySelectorComponent(categoryViewModel: CategoryViewModel) : VBox() {
                     )
 
                     editItem.setOnAction {
-                        item?.let {
-                            // TODO: edit category
+                        item?.let { category ->
+                            val editor = CategoryFormComponent(category)
+
+                            val stage = Stage()
+
+                            stage.initModality(
+                                Modality.APPLICATION_MODAL
+                            )
+
+                            stage.initOwner(
+                                scene.window
+                            )
+
+                            stage.title = "Edit Category"
+
+                            stage.scene = Scene(
+                                editor,
+                                350.0,
+                                220.0
+                            )
+
+                            stage.showAndWait()
+
+                            // TODO:
+                            // Reload categories from repository/viewmodel
+                            // Refresh list view if needed
                         }
                     }
 
@@ -106,7 +131,31 @@ class CategorySelectorComponent(categoryViewModel: CategoryViewModel) : VBox() {
 
     private fun setupButtons() {
         addButton.setOnAction {
-            // TODO: add category
+            val editor = CategoryFormComponent()
+
+            val stage = Stage()
+
+            stage.initModality(
+                Modality.APPLICATION_MODAL
+            )
+
+            stage.initOwner(
+                scene.window
+            )
+
+            stage.title = "Add Category"
+
+            stage.scene = Scene(
+                editor,
+                350.0,
+                220.0
+            )
+
+            stage.showAndWait()
+
+            // TODO:
+            // Reload categories from repository/viewmodel
+            // Refresh list view if needed
         }
 
         confirmButton.setOnAction {
