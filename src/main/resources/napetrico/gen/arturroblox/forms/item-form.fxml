@@ -53,7 +53,7 @@
                     <Font size="18.0"/>
                 </font>
             </Label>
-            <ComboBox fx:id="categoriesCombo" />
+            <Button fx:id="categoryButton" text="Selecione uma categoria"/>
         </HBox>
         <padding>
             <Insets bottom="5.0" left="5.0"/>

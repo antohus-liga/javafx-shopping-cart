@@ -1,22 +1,18 @@
 package napetrico.gen.arturroblox.controllers
 
 import javafx.event.ActionEvent
+import javafx.event.EventHandler
 import javafx.fxml.FXML
+import javafx.scene.Scene
 import javafx.scene.control.Button
-import javafx.scene.control.ComboBox
-import javafx.scene.control.ContextMenu
 import javafx.scene.control.Label
-import javafx.scene.control.ListCell
-import javafx.scene.control.MenuItem
 import javafx.scene.control.TextField
-import javafx.scene.paint.Color
-import javafx.scene.shape.SVGPath
+import javafx.stage.Modality
 import javafx.stage.Stage
-import napetrico.gen.arturroblox.models.CategoryModel
 import napetrico.gen.arturroblox.models.ItemModel
 import napetrico.gen.arturroblox.models.NewItem
 import napetrico.gen.arturroblox.models.UpdateItem
-import napetrico.gen.arturroblox.utils.assets.Assets
+import napetrico.gen.arturroblox.utils.components.CategorySelectorComponent
 import napetrico.gen.arturroblox.viewmodels.CartViewModel
 import napetrico.gen.arturroblox.viewmodels.CategoryViewModel
 import napetrico.gen.arturroblox.viewmodels.ItemViewModel
@@ -27,10 +23,10 @@ class ItemFormController {
 
     @FXML private lateinit var description: TextField
     @FXML private lateinit var unitPrice: TextField
-    @FXML private lateinit var categoriesCombo: ComboBox<CategoryModel>
 
     @FXML private lateinit var descriptionError: Label
     @FXML private lateinit var unitPriceError: Label
+    @FXML private lateinit var categoryButton: Button
 
     private lateinit var itemViewModel: ItemViewModel
     private lateinit var cartItemViewModel: CartViewModel
@@ -43,25 +39,24 @@ class ItemFormController {
         mode = Mode.CREATE
         this.itemViewModel = itemViewModel
         this.categoryViewModel = categoryViewModel
-
-        categoriesCombo.items.setAll(categoryViewModel.categories)
-        categoriesCombo.items.add(CategoryModel(0, "Cool things", Color.web("#000000")))
-        categoriesCombo.items.add(CategoryModel(0, "", Color.web("ffffff")))
-
-        initCombo()
+        setupCategoryButton()
     }
 
-    fun initEdit(itemViewModel: ItemViewModel, cartItemViewModel: CartViewModel, categoryViewModel: CategoryViewModel, item: ItemModel) {
+    fun initEdit(
+        itemViewModel: ItemViewModel,
+        cartItemViewModel: CartViewModel,
+        categoryViewModel: CategoryViewModel,
+        item: ItemModel
+    ) {
         mode = Mode.EDIT
         this.itemViewModel = itemViewModel
         this.cartItemViewModel = cartItemViewModel
         this.categoryViewModel = categoryViewModel
         this.editingItem = item
+        setupCategoryButton()
 
         description.text = item.descriptionProperty.get()
         unitPrice.text = item.unitPriceProperty.get().toString().replace(".", ",")
-
-        initCombo()
     }
 
     @FXML
@@ -101,57 +96,23 @@ class ItemFormController {
         stage.close()
     }
 
-    private fun initCombo() {
-        categoriesCombo.setCellFactory {
+    private fun setupCategoryButton() {
+        categoryButton.onAction = EventHandler {
+            val categorySelector = CategorySelectorComponent(categoryViewModel)
 
-            object : ListCell<CategoryModel>() {
+            val stage = Stage()
 
-                override fun updateItem(item: CategoryModel?, empty: Boolean) {
-                    super.updateItem(item, empty)
+            stage.initModality(Modality.APPLICATION_MODAL)
 
-                    if (empty || item == null) {
-                        text = null
-                        contextMenu = null
-                        style = ""
-                        return
-                    }
+            stage.title = "Select Category"
 
-                    text = item.descriptionProperty.get()
+            stage.scene = Scene(
+                categorySelector,
+                300.0,
+                400.0
+            )
 
-                    val isAddButton = item == categoriesCombo.items.lastOrNull()
-
-                    if (isAddButton) {
-                        graphic = SVGPath().apply { content = Assets.PLUS_ICON }
-                        style = "-fx-alignment: center;"
-
-                        contextMenu = null
-
-                    } else {
-                        style = """-fx-background-color: rgba(
-                                    ${(item.colorProperty.get().red * 255).toInt()},
-                                    ${(item.colorProperty.get().green * 255).toInt()},
-                                    ${(item.colorProperty.get().blue * 255).toInt()},
-                                    0.45
-                                ); -fx-alignment: center;"""
-
-                        val editItem = MenuItem("Edit")
-                        val deleteItem = MenuItem("Delete")
-
-                        editItem.setOnAction {
-                            println("Edit ${item.descriptionProperty.get()}")
-                        }
-
-                        deleteItem.setOnAction {
-
-//                            categoriesViewModel.remove()
-
-                            println("Deleted ${item.descriptionProperty.get()}")
-                        }
-
-                        contextMenu = ContextMenu(editItem, deleteItem)
-                    }
-                }
-            }
+            stage.showAndWait()
         }
     }
 }
