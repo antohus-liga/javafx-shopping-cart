@@ -55,6 +55,7 @@
             </Label>
             <Button fx:id="categoryButton" text="Selecione uma categoria"/>
         </HBox>
+        <Label fx:id="categoryError" prefHeight="17.0" prefWidth="280.0" styleClass="error-label"/>
         <padding>
             <Insets bottom="5.0" left="5.0"/>
         </padding>

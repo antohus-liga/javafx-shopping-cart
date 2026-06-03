@@ -23,7 +23,7 @@ class ItemRepository {
         Item.new {
             description = item.description
             unitPrice   = item.unitPrice
-            category    = item.categoryId?.let(Category::findById)
+            category    = item.category.id.let(Category::findById)!!
         }.toDto()
     }
 
@@ -31,7 +31,7 @@ class ItemRepository {
         Items.update( { Items.id eq item.id }) {
             it[Items.description] = updateItem.description
             it[Items.unitPrice] = updateItem.unitPrice
-            it[Items.category] = updateItem.categoryId
+            it[Items.category] = updateItem.category.id
         }
     }
 
@@ -39,5 +39,5 @@ class ItemRepository {
         Items.deleteWhere { Items.id eq item.id }
     }
 
-    fun Item.toDto() = ItemModel(id.value, description, unitPrice, category?.toDto())
+    fun Item.toDto() = ItemModel(id.value, description, unitPrice, category.toDto())
 }

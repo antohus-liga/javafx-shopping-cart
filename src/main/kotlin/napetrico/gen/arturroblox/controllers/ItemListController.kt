@@ -1,6 +1,8 @@
 package napetrico.gen.arturroblox.controllers
 
 import javafx.beans.binding.Bindings
+import javafx.beans.property.SimpleObjectProperty
+import javafx.beans.property.SimpleStringProperty
 import javafx.event.EventHandler
 import javafx.fxml.FXML
 import javafx.fxml.FXMLLoader
@@ -14,6 +16,7 @@ import javafx.scene.input.MouseButton
 import javafx.stage.Modality
 import javafx.stage.Stage
 import javafx.util.Callback
+import napetrico.gen.arturroblox.models.CategoryModel
 import napetrico.gen.arturroblox.models.ItemModel
 import napetrico.gen.arturroblox.utils.assets.Assets
 import napetrico.gen.arturroblox.utils.assets.ButtonTableCell
@@ -21,6 +24,7 @@ import napetrico.gen.arturroblox.utils.extensions.toStyledScene
 import napetrico.gen.arturroblox.viewmodels.CartViewModel
 import napetrico.gen.arturroblox.viewmodels.CategoryViewModel
 import napetrico.gen.arturroblox.viewmodels.ItemViewModel
+import java.math.BigDecimal
 import java.net.URL
 import java.util.ResourceBundle
 
@@ -69,15 +73,35 @@ class ItemListController: Initializable {
         }
 
         itemsTable.rowFactory = Callback {
-            val row = TableRow<ItemModel>()
+            object : TableRow<ItemModel>() {
+                init {
+                    onMouseClicked = EventHandler { event ->
+                        if (event.button == MouseButton.SECONDARY && !this.isEmpty) {
+                            openEditForm(this.item)
+                        }
+                    }
+                }
 
-            row.onMouseClicked = EventHandler { event ->
-                if (event.button == MouseButton.SECONDARY && !row.isEmpty) {
-                    openEditForm(row.item)
+                override fun updateItem(item: ItemModel?, empty: Boolean) {
+                    super.updateItem(item, empty)
+
+                    if (empty || item == null) {
+                        style = ""
+                        return
+                    }
+
+                    val color = item.categoryProperty.get().colorProperty.get()
+
+                    if (color != null) {
+                        style = """-fx-background-color: rgba(
+                            ${(color.red * 255).toInt()}, 
+                            ${(color.green * 255).toInt()}, 
+                            ${(color.blue * 255).toInt()},
+                            0.4
+                        );"""
+                    }
                 }
             }
-
-            row
         }
 
         description.cellValueFactory = Callback { it.value.descriptionProperty }
@@ -115,6 +139,8 @@ class ItemListController: Initializable {
             title = "Editar artigo ${item.descriptionProperty.get()}"
             show()
         }
+
+        itemsTable.refresh()
     }
 
     @FXML
@@ -132,5 +158,7 @@ class ItemListController: Initializable {
             title = "Criar artigo"
         }
         stage.show()
+
+        itemsTable.refresh()
     }
 }

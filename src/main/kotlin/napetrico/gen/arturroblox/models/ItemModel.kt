@@ -8,8 +8,9 @@ class ItemModel (
     val id: Int,
     description: String,
     unitPrice: BigDecimal,
-    category: CategoryModel?,
+    category: CategoryModel,
 ) {
     val descriptionProperty = SimpleStringProperty(description)
     val unitPriceProperty = SimpleObjectProperty(unitPrice)
+    val categoryProperty = SimpleObjectProperty(category)
 }

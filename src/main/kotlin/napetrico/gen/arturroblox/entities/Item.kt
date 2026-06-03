@@ -10,5 +10,5 @@ class Item(id: EntityID<Int>) : IntEntity(id) {
 
     var description by Items.description
     var unitPrice by Items.unitPrice
-    var category by (Category optionalReferencedOn Items.category)
+    var category by (Category referencedOn Items.category)
 }

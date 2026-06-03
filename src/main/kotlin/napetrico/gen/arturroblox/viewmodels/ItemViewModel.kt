@@ -24,6 +24,7 @@ class ItemViewModel {
     fun updateItem(item: ItemModel, updateItem: UpdateItem) {
         item.descriptionProperty.set(updateItem.description)
         item.unitPriceProperty.set(updateItem.unitPrice)
+        item.categoryProperty.set(updateItem.category)
         itemRepository.update(item, updateItem)
     }
 

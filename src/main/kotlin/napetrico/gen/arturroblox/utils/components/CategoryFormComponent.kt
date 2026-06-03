@@ -8,16 +8,20 @@ import javafx.scene.layout.Region
 import javafx.scene.layout.VBox
 import javafx.stage.Stage
 import napetrico.gen.arturroblox.models.CategoryModel
+import napetrico.gen.arturroblox.models.NewCategory
+import napetrico.gen.arturroblox.models.UpdateCategory
+import napetrico.gen.arturroblox.viewmodels.CategoryViewModel
 
 class CategoryFormComponent(
-    existingCategory: CategoryModel? = null
+    existingCategory: CategoryModel? = null,
+    private val categoryViewModel: CategoryViewModel
 ) : VBox() {
     private val descriptionField = TextField()
     private val descriptionErrorLabel = Label()
     private val colorPicker = ColorPicker()
 
-    private val confirmButton = Button("Confirm")
-    private val cancelButton = Button("Cancel")
+    private val confirmButton = Button("Confirmar")
+    private val cancelButton = Button("Cancelar")
 
     init {
         spacing = 12.0
@@ -28,7 +32,7 @@ class CategoryFormComponent(
         setupButtons(existingCategory)
 
         children.addAll(
-            Label("Description"),
+            Label("Descrição"),
 
             VBox(
                 4.0,
@@ -36,7 +40,7 @@ class CategoryFormComponent(
                 descriptionErrorLabel
             ),
 
-            Label("Colour"),
+            Label("Cor"),
 
             colorPicker,
 
@@ -79,11 +83,9 @@ class CategoryFormComponent(
             val selectedColor = colorPicker.value
 
             if (existingCategory == null) {
-                // TODO:
-                // Create category in DB/repository
+                categoryViewModel.create(NewCategory(description, selectedColor))
             } else {
-                // TODO:
-                // Update existing category in DB/repository
+                categoryViewModel.update(existingCategory, UpdateCategory(description, selectedColor))
             }
 
             closeWindow()
@@ -99,7 +101,7 @@ class CategoryFormComponent(
         val description = descriptionField.text.trim()
 
         if (description.isBlank()) {
-            descriptionErrorLabel.text = "Description cannot be empty"
+            descriptionErrorLabel.text = "A descrição não pode estar vazia."
 
             descriptionErrorLabel.isManaged = true
             descriptionErrorLabel.isVisible = true
